@@ -9,7 +9,10 @@ export class Server {
 	private readonly server: http.Server;
 	private handle?: HandleFn;
 
-	constructor(private readonly host: string, private port?: number) {
+	constructor(
+		private readonly host: string,
+		private port?: number,
+	) {
 		this.server = this._makeServer();
 	}
 

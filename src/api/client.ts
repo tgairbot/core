@@ -5,7 +5,10 @@ import { IncomingMessage } from "http";
 import { Response } from "../types/client";
 
 export class Client {
-	constructor(private method: string, private token: string) {}
+	constructor(
+		private method: string,
+		private token: string,
+	) {}
 
 	get url(): URL {
 		return new URL(`https://${HOST}/bot${this.token}/${this.method}`);
