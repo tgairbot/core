@@ -1,11 +1,12 @@
+import { debug } from "console";
+
 import { Client } from "../api/client";
 import { HandleFn, Server } from "../api/server";
-import { Update } from "../types/update";
+import { Handler } from "../handler";
 import { Response } from "../types/server";
+import { Update } from "../types/telegram/update";
 import { SetWebhook, WebhookOptions } from "../types/webhook";
 import { WrapRequest } from "../types/wrap-request";
-import { debug } from "console";
-import { Event } from "../event";
 
 export class Webhook {
 	private client: Client;
@@ -42,7 +43,7 @@ export class Webhook {
 		if (this.params.log)
 			debug("Handle update: ", JSON.stringify(body, null, 2));
 
-		Event.emit("update", body);
+		Handler.emit("update", body);
 	}
 
 	private _parseOptions() {

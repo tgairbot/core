@@ -170,4 +170,184 @@ export class ChatMapper {
 			entity,
 		);
 	}
+
+	static chatMemberToTab(options: Telegram.ChatMember): TgAirBot.ChatMember {
+		if (options.status === "creator")
+			return ChatMapper.chatMemberOwnerToTAB(options);
+
+		if (options.status === "administrator")
+			return ChatMapper.chatMemberAdministratorToTAB(options);
+
+		if (options.status === "member")
+			return ChatMapper.chatMemberMemberToTAB(options);
+
+		if (options.status === "kicked")
+			return ChatMapper.chatMemberBunnedToTAB(options);
+
+		if (options.status === "restricted")
+			return ChatMapper.chatMemberRestrictedToTab(options);
+
+		if (options.status === "left")
+			return ChatMapper.chatMemberLeftToTAB(options);
+
+		throw new Error("Unknown member");
+	}
+
+	static chatMemberOwnerToTAB(
+		options: Telegram.ChatMemberOwner,
+	): TgAirBot.ChatMemberOwner {
+		const entity: TgAirBot.ChatMemberOwner = {
+			status: options.status,
+			isAnonymous: options.is_anonymous,
+			user: UserMapper.toTAB(options.user),
+			customTitle: options.custom_title,
+		};
+
+		return RemoveUndefinedKeysFromObject<TgAirBot.ChatMemberOwner>(entity);
+	}
+
+	static chatMemberAdministratorToTAB(
+		options: Telegram.ChatMemberAdministrator,
+	): TgAirBot.ChatMemberAdministrator {
+		const entity: TgAirBot.ChatMemberAdministrator = {
+			status: options.status,
+			isAnonymous: options.is_anonymous,
+			user: UserMapper.toTAB(options.user),
+			customTitle: options.custom_title,
+			canBeEdited: options.can_be_edited,
+			canChangeInfo: options.can_change_info,
+			canDeleteMessages: options.can_delete_messages,
+			canInviteUsers: options.can_invite_users,
+			canManageChat: options.can_manage_chat,
+			canManageVideoChats: options.can_manage_video_chats,
+			canPromoteMembers: options.can_promote_members,
+			canRestrictMembers: options.can_restrict_members,
+			canEditMessages: options.can_edit_messages,
+			canManageTopics: options.can_manage_topics,
+			canPinMessages: options.can_pin_messages,
+			canPostMessages: options.can_post_messages,
+		};
+
+		return RemoveUndefinedKeysFromObject<TgAirBot.ChatMemberAdministrator>(
+			entity,
+		);
+	}
+
+	static chatMemberMemberToTAB(
+		options: Telegram.ChatMemberMember,
+	): TgAirBot.ChatMemberMember {
+		const entity: TgAirBot.ChatMemberMember = {
+			status: options.status,
+			user: UserMapper.toTAB(options.user),
+		};
+
+		return RemoveUndefinedKeysFromObject<TgAirBot.ChatMemberMember>(entity);
+	}
+
+	static chatMemberLeftToTAB(
+		options: Telegram.ChatMemberLeft,
+	): TgAirBot.ChatMemberLeft {
+		const entity: TgAirBot.ChatMemberLeft = {
+			status: options.status,
+			user: UserMapper.toTAB(options.user),
+		};
+
+		return RemoveUndefinedKeysFromObject<TgAirBot.ChatMemberLeft>(entity);
+	}
+
+	static chatMemberRestrictedToTab(
+		options: Telegram.ChatMemberRestricted,
+	): TgAirBot.ChatMemberRestricted {
+		const entity: TgAirBot.ChatMemberRestricted = {
+			canAddWebPagePreviews: options.can_add_web_page_previews,
+			canChangeInfo: options.can_change_info,
+			canInviteUsers: options.can_invite_users,
+			canManageTopics: options.can_manage_topics,
+			canPinMessages: options.can_pin_messages,
+			canSendAudios: options.can_send_audios,
+			canSendDocuments: options.can_send_documents,
+			canSendMessages: options.can_send_messages,
+			canSendOtherMessages: options.can_send_other_messages,
+			canSendPhotos: options.can_send_photos,
+			canSendPolls: options.can_send_polls,
+			canSendVideoNotes: options.can_send_video_notes,
+			canSendVideos: options.can_send_videos,
+			canSendVoiceNotes: options.can_send_voice_notes,
+			is_member: options.is_member,
+			status: options.status,
+			untilDate: options.until_date,
+			user: UserMapper.toTAB(options.user),
+		};
+
+		return RemoveUndefinedKeysFromObject<TgAirBot.ChatMemberRestricted>(
+			entity,
+		);
+	}
+
+	static chatMemberBunnedToTAB(
+		options: Telegram.ChatMemberBunned,
+	): TgAirBot.ChatMemberBunned {
+		const entity: TgAirBot.ChatMemberBunned = {
+			status: options.status,
+			untilDate: options.until_date,
+			user: UserMapper.toTAB(options.user),
+		};
+
+		return RemoveUndefinedKeysFromObject<TgAirBot.ChatMemberBunned>(entity);
+	}
+
+	static chatMemberUpdatedToTab(
+		options: Telegram.ChatMemberUpdated,
+	): TgAirBot.ChatMemberUpdated {
+		const entity: TgAirBot.ChatMemberUpdated = {
+			chat: ChatMapper.toTAB(options.chat),
+			date: options.date,
+			from: UserMapper.toTAB(options.from),
+			viaChatFolderInviteLink: options.via_chat_folder_invite_link,
+			newChatMember: ChatMapper.chatMemberToTab(options.new_chat_member),
+			oldChatMember: ChatMapper.chatMemberToTab(options.old_chat_member),
+			inviteLink: options.invite_link
+				? ChatMapper.chatInviteLinkToTAB(options.invite_link)
+				: undefined,
+		};
+
+		return RemoveUndefinedKeysFromObject<TgAirBot.ChatMemberUpdated>(
+			entity,
+		);
+	}
+
+	static chatInviteLinkToTAB(
+		options: Telegram.ChatInviteLink,
+	): TgAirBot.ChatInviteLink {
+		const entity: TgAirBot.ChatInviteLink = {
+			createsJoinRequest: options.creates_join_request,
+			creator: UserMapper.toTAB(options.creator),
+			inviteLink: options.invite_link,
+			isPrimary: options.is_primary,
+			isRevoked: options.is_revoked,
+			expireDate: options.expire_date,
+			memberLimit: options.member_limit,
+			name: options.name,
+			pendingJoinRequestCount: options.pending_join_request_count,
+		};
+
+		return RemoveUndefinedKeysFromObject<TgAirBot.ChatInviteLink>(entity);
+	}
+
+	static chatJoinRequestToTAB(
+		options: Telegram.ChatJoinRequest,
+	): TgAirBot.ChatJoinRequest {
+		const entity: TgAirBot.ChatJoinRequest = {
+			chat: ChatMapper.toTAB(options.chat),
+			from: UserMapper.toTAB(options.from),
+			date: options.date,
+			userChatId: options.user_chat_id,
+			bio: options.bio,
+			inviteLink: options.invite_link
+				? ChatMapper.chatInviteLinkToTAB(options.invite_link)
+				: undefined,
+		};
+
+		return RemoveUndefinedKeysFromObject<TgAirBot.ChatJoinRequest>(entity);
+	}
 }

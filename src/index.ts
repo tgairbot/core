@@ -1,13 +1,12 @@
 import { Methods } from "./api/methods";
-import { Event } from "./event";
-import { Message } from "./types/telegram";
+import { Handler } from "./handler";
 import { Polling } from "./updates/polling";
 
 async function bootstrap() {
 	const polling = new Polling(
 		"5608595917:AAGDGv6D9heC4nquo_AnuHlDU7w1SUi2bDk",
 		{
-			log: true,
+			log: false,
 		},
 	);
 
@@ -20,23 +19,27 @@ async function bootstrap() {
 	const me = await methods.getMe();
 	console.log(me);
 
-	Event.on("message", async (data: Message) => {
-		console.log(data);
-
-		if (data.text === "ban") {
-			const message = await methods.banChatMember({
-				userId: 5850998098,
-				chatId: -1001910269553,
+	Handler.onMessage(async data => {
+		if (data.text === "1") {
+			const message = await methods.sendMessage({
+				replyToMessageId: data.messageId,
+				chatId: data.chat.id,
+				text: "One handler",
 			});
 
-			console.log("BAN");
-		} else if (data.text === "unban") {
-			const message = await methods.unbanChatMember({
-				userId: 5850998098,
-				chatId: -1001910269553,
+			console.debug(JSON.stringify(message, null, 2));
+		}
+	});
+
+	Handler.onMessage(async data => {
+		if (data.text === "2") {
+			const message = await methods.sendMessage({
+				replyToMessageId: data.messageId,
+				chatId: data.chat.id,
+				text: "Two handler",
 			});
 
-			console.log("UNBAN");
+			console.debug(JSON.stringify(message, null, 2));
 		}
 	});
 }

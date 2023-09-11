@@ -15,4 +15,17 @@ export class LocationMapper {
 
 		return RemoveUndefinedKeysFromObject<TgAirBot.Location>(entity);
 	}
+
+	static toTelegram(location: TgAirBot.Location): Telegram.Location {
+		const entity: Telegram.Location = {
+			latitude: location.latitude,
+			longitude: location.longitude,
+			heading: location.heading,
+			horizontal_accuracy: location.horizontalAccuracy,
+			live_period: location.livePeriod,
+			proximity_alert_radius: location.proximityAlertRadius,
+		};
+
+		return RemoveUndefinedKeysFromObject<Telegram.Location>(entity);
+	}
 }

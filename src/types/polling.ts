@@ -1,4 +1,4 @@
-import { UpdatedTypes } from "./update";
+import { UpdatedTypes } from "./telegram/update";
 
 export interface PollingOptions {
 	limit?: number;

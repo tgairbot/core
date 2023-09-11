@@ -1,9 +1,9 @@
 import { debug } from "console";
 
 import { Client } from "../api/client";
-import { Event } from "../event";
+import { Handler } from "../handler";
 import { PollingOptions } from "../types/polling";
-import { AlovedUpdates, GetUpdates, Update } from "../types/update";
+import { AlovedUpdates, GetUpdates, Update } from "../types/telegram/update";
 import { WrapRequest } from "../types/wrap-request";
 
 export class Polling {
@@ -59,7 +59,7 @@ export class Polling {
 		if (this.options.log)
 			debug("Handle update: ", JSON.stringify(update, null, 2));
 
-		Event.emit("update", update);
+		Handler.emit("update", update);
 	}
 
 	private _filterOptions() {
