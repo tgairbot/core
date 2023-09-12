@@ -28,9 +28,7 @@ import { WrapRequest } from "../types/wrap-request";
 import { Client } from "./client";
 
 export class Methods {
-	constructor(private readonly token: string) {
-		console.log(token);
-	}
+	constructor(private readonly token: string) {}
 
 	private async _send<T>(
 		methodName: string,
