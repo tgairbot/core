@@ -24,13 +24,29 @@ import { UnbanChatMemberMapper } from "../mappers/methods/unban-chat-member";
 import { UserMapper } from "../mappers/user";
 import * as Telegram from "../types/telegram";
 import * as TgAirBot from "../types/tgairbot";
-import { WrapRequest } from "../types/wrap-request";
+import { RestrictChatMemberMapper } from "../mappers/methods/restrict-chat-member";
 import { Client } from "./client";
+import { WrapRequest } from "../types/wrap-request";
+import { PromoteChatMemberMapper } from "../mappers/methods/promote-chat-member";
+import { SetChatAdministratorCustomTitleMapper } from "../mappers/methods/set-chat-administrator-custom-title";
+import { BanChatSenderChatMapper } from "../mappers/methods/ban-chat-sender-chat";
+import { UnbanChatSenderChatMapper } from "../mappers/methods/unban-chat-sender-chat";
+import { SetChatPermissionsMapper } from "../mappers/methods/set-chat-permissions";
+import { ExportChatInviteLinkMapper } from "../mappers/methods/export-chat-invite-link";
+import { CreateChatInviteLinkMapper } from "../mappers/methods/create-chat-invite-link";
+import { ChatMapper } from "../mappers/chat";
+import { EditChatInviteLinkMapper } from "../mappers/methods/edit-chat-invite-link";
+import { RevokeChatInviteLinkMapper } from "../mappers/methods/revoke-chat-invite-link";
+import { ApproveChatJoinRequestMapper } from "../mappers/methods/approve-chat-join-request";
+import { DeclineChatJoinRequestMapper } from "../mappers/methods/decline-chat-join-request";
+import { SetChatPhotoMapper } from "../mappers/methods/set-chat-photo";
+import { DeleteChatPhotoMapper } from "../mappers/methods/delete-chat-photo";
+import { SetChatTitleMapper } from "../mappers/methods/set-chat-title";
 
-export class Methods {
+class BaseMethods {
 	constructor(private readonly token: string) {}
 
-	private async _send<T>(
+	protected async send<T>(
 		methodName: string,
 		params?: Record<string, any>,
 	): Promise<T> {
@@ -45,7 +61,7 @@ export class Methods {
 		}
 	}
 
-	private async _sendForm<T>(
+	protected async sendForm<T>(
 		methodName: string,
 		params?: Record<string, any>,
 	) {
@@ -59,17 +75,22 @@ export class Methods {
 			throw body.result;
 		}
 	}
+}
+export class Methods extends BaseMethods {
+	constructor(token: string) {
+		super(token);
+	}
 
 	async getMe(): Promise<TgAirBot.User> {
-		return UserMapper.toTAB(await this._send<Telegram.User>("getMe"));
+		return UserMapper.toTAB(await this.send<Telegram.User>("getMe"));
 	}
 
 	async logOut(): Promise<true> {
-		return this._send<true>("logOut");
+		return this.send<true>("logOut");
 	}
 
 	async close(): Promise<true> {
-		return this._send<true>("close");
+		return this.send<true>("close");
 	}
 
 	async sendMessage(
@@ -77,7 +98,7 @@ export class Methods {
 	): Promise<TgAirBot.Message> {
 		const params = SendMessageMapper.toTelegram(options);
 
-		const message = await this._send<Telegram.Message>(
+		const message = await this.send<Telegram.Message>(
 			"sendMessage",
 			params,
 		);
@@ -90,7 +111,7 @@ export class Methods {
 	): Promise<TgAirBot.Message> {
 		const params = ForwardMessageMapper.toTelegram(options);
 
-		const message = await this._send<Telegram.Message>(
+		const message = await this.send<Telegram.Message>(
 			"forwardMessage",
 			params,
 		);
@@ -103,7 +124,7 @@ export class Methods {
 	): Promise<TgAirBot.MessageId> {
 		const params = CopyMessageMapper.toTelegram(options);
 
-		const messageId = await this._send<Telegram.MessageId>(
+		const messageId = await this.send<Telegram.MessageId>(
 			"copyMessage",
 			params,
 		);
@@ -115,14 +136,14 @@ export class Methods {
 		const params = SendPhotoMapper.toTelegram(options);
 
 		if (typeof params.photo === "string") {
-			const message = await this._send<Telegram.Message>(
+			const message = await this.send<Telegram.Message>(
 				"sendPhoto",
 				params,
 			);
 
 			return MessageMapper.toTAB(message);
 		} else {
-			const message = await this._sendForm<Telegram.Message>(
+			const message = await this.sendForm<Telegram.Message>(
 				"sendPhoto",
 				params,
 			);
@@ -138,14 +159,14 @@ export class Methods {
 			typeof params.audio !== "string" ||
 			(params.thumbnail && typeof params.thumbnail !== "string")
 		) {
-			const message = await this._sendForm<Telegram.Message>(
+			const message = await this.sendForm<Telegram.Message>(
 				"sendAudio",
 				params,
 			);
 
 			return MessageMapper.toTAB(message);
 		} else {
-			const message = await this._send<Telegram.Message>(
+			const message = await this.send<Telegram.Message>(
 				"sendAudio",
 				params,
 			);
@@ -163,14 +184,14 @@ export class Methods {
 			typeof params.document !== "string" ||
 			(params.thumbnail && typeof params.thumbnail !== "string")
 		) {
-			const message = await this._sendForm<Telegram.Message>(
+			const message = await this.sendForm<Telegram.Message>(
 				"sendDocument",
 				params,
 			);
 
 			return MessageMapper.toTAB(message);
 		} else {
-			const message = await this._send<Telegram.Message>(
+			const message = await this.send<Telegram.Message>(
 				"sendDocument",
 				params,
 			);
@@ -186,14 +207,14 @@ export class Methods {
 			typeof params.video !== "string" ||
 			(params.thumbnail && typeof params.thumbnail !== "string")
 		) {
-			const message = await this._sendForm<Telegram.Message>(
+			const message = await this.sendForm<Telegram.Message>(
 				"sendVideo",
 				params,
 			);
 
 			return MessageMapper.toTAB(message);
 		} else {
-			const message = await this._send<Telegram.Message>(
+			const message = await this.send<Telegram.Message>(
 				"sendVideo",
 				params,
 			);
@@ -211,14 +232,14 @@ export class Methods {
 			typeof params.animation !== "string" ||
 			(params.thumbnail && typeof params.thumbnail !== "string")
 		) {
-			const message = await this._sendForm<Telegram.Message>(
+			const message = await this.sendForm<Telegram.Message>(
 				"sendAnimation",
 				params,
 			);
 
 			return MessageMapper.toTAB(message);
 		} else {
-			const message = await this._send<Telegram.Message>(
+			const message = await this.send<Telegram.Message>(
 				"sendAnimation",
 				params,
 			);
@@ -231,14 +252,14 @@ export class Methods {
 		const params = SendVoiceMapper.toTelegram(options);
 
 		if (typeof params.voice !== "string") {
-			const message = await this._sendForm<Telegram.Message>(
+			const message = await this.sendForm<Telegram.Message>(
 				"sendVoice",
 				params,
 			);
 
 			return MessageMapper.toTAB(message);
 		} else {
-			const message = await this._send<Telegram.Message>(
+			const message = await this.send<Telegram.Message>(
 				"sendVoice",
 				params,
 			);
@@ -253,14 +274,14 @@ export class Methods {
 		const params = SendVideoNoteMapper.toTelegram(options);
 
 		if (typeof params.video_note !== "string") {
-			const message = await this._sendForm<Telegram.Message>(
+			const message = await this.sendForm<Telegram.Message>(
 				"sendVideoNote",
 				params,
 			);
 
 			return MessageMapper.toTAB(message);
 		} else {
-			const message = await this._send<Telegram.Message>(
+			const message = await this.send<Telegram.Message>(
 				"sendVideoNote",
 				params,
 			);
@@ -288,14 +309,14 @@ export class Methods {
 		);
 
 		if (isNoForm) {
-			const messages = await this._send<Telegram.Message[]>(
+			const messages = await this.send<Telegram.Message[]>(
 				"sendMediaGroup",
 				params,
 			);
 
 			return messages.map(MessageMapper.toTAB);
 		} else {
-			const messages = await this._sendForm<Telegram.Message[]>(
+			const messages = await this.sendForm<Telegram.Message[]>(
 				"sendMediaGroup",
 				params,
 			);
@@ -309,7 +330,7 @@ export class Methods {
 	): Promise<TgAirBot.Message> {
 		const params = SendLocationMapper.toTelegram(options);
 
-		const message = await this._send<Telegram.Message>(
+		const message = await this.send<Telegram.Message>(
 			"sendLocation",
 			params,
 		);
@@ -320,7 +341,7 @@ export class Methods {
 	async sendVenue(options: TgAirBot.SendVenue): Promise<TgAirBot.Message> {
 		const params = SendVenueMapper.toTelegram(options);
 
-		const message = await this._send<Telegram.Message>("sendVenue", params);
+		const message = await this.send<Telegram.Message>("sendVenue", params);
 
 		return MessageMapper.toTAB(message);
 	}
@@ -330,7 +351,7 @@ export class Methods {
 	): Promise<TgAirBot.Message> {
 		const params = SendContactMapper.toTelegram(options);
 
-		const message = await this._send<Telegram.Message>(
+		const message = await this.send<Telegram.Message>(
 			"sendContact",
 			params,
 		);
@@ -341,7 +362,7 @@ export class Methods {
 	async sendPoll(options: TgAirBot.SendPoll): Promise<TgAirBot.Message> {
 		const params = SendPollMapper.toTelegram(options);
 
-		const message = await this._send<Telegram.Message>("sendPoll", params);
+		const message = await this.send<Telegram.Message>("sendPoll", params);
 
 		return MessageMapper.toTAB(message);
 	}
@@ -349,7 +370,7 @@ export class Methods {
 	async sendDice(options: TgAirBot.SendDice): Promise<TgAirBot.Message> {
 		const params = SendDiceMapper.toTelegram(options);
 
-		const message = await this._send<Telegram.Message>("sendDice", params);
+		const message = await this.send<Telegram.Message>("sendDice", params);
 
 		return MessageMapper.toTAB(message);
 	}
@@ -357,7 +378,7 @@ export class Methods {
 	async sendChatAction(options: TgAirBot.SendChatAtion): Promise<true> {
 		const params = SendChatActionMapper.toTelegram(options);
 
-		return this._send<true>("sendChatAction", params);
+		return this.send<true>("sendChatAction", params);
 	}
 
 	async getUserProfilePhotos(
@@ -365,7 +386,7 @@ export class Methods {
 	): Promise<TgAirBot.UserProfilePhotos> {
 		const params = GetUserProfilePhotosMapper.toTelegram(options);
 
-		const userProfilePhotos = await this._send<Telegram.UserProfilePhotos>(
+		const userProfilePhotos = await this.send<Telegram.UserProfilePhotos>(
 			"getUserProfilePhotos",
 			params,
 		);
@@ -376,7 +397,7 @@ export class Methods {
 	async getFile(options: TgAirBot.GetFile): Promise<TgAirBot.File> {
 		const params = GetFileMapper.toTelegram(options);
 
-		const file = await this._send<Telegram.File>("getFile", params);
+		const file = await this.send<Telegram.File>("getFile", params);
 
 		return FileMapper.toTAB(file);
 	}
@@ -384,12 +405,142 @@ export class Methods {
 	async banChatMember(options: TgAirBot.BanChatMember): Promise<true> {
 		const params = BanChatMemberMapper.toTelegram(options);
 
-		return this._send<true>("banChatMember", params);
+		return this.send<true>("banChatMember", params);
 	}
 
 	async unbanChatMember(options: TgAirBot.UnbanChatMember): Promise<true> {
 		const params = UnbanChatMemberMapper.toTelegram(options);
 
-		return this._send<true>("unbanChatMember", params);
+		return this.send<true>("unbanChatMember", params);
+	}
+
+	async restrictChatMember(
+		options: TgAirBot.RestrictChatMember,
+	): Promise<true> {
+		const params = RestrictChatMemberMapper.toTelegram(options);
+
+		return this.send<true>("restrictChatMember", params);
+	}
+
+	async promoteChatMember(
+		options: TgAirBot.PromoteChatMember,
+	): Promise<true> {
+		const params = PromoteChatMemberMapper.toTelegram(options);
+
+		return this.send<true>("promoteChatMember", params);
+	}
+
+	async setChatAdministratorCustomTitle(
+		options: TgAirBot.SetChatAdministratorCustomTitle,
+	): Promise<true> {
+		const params =
+			SetChatAdministratorCustomTitleMapper.toTelegram(options);
+
+		return this.send<true>("setChatAdministratorCustomTitle", params);
+	}
+
+	async banChatSenderChat(
+		options: TgAirBot.BanChatSenderChat,
+	): Promise<true> {
+		const params = BanChatSenderChatMapper.toTelegram(options);
+
+		return this.send<true>("banChatSenderChat", params);
+	}
+
+	async unbanChatSenderChat(
+		options: TgAirBot.UnbanChatSenderChat,
+	): Promise<true> {
+		const params = UnbanChatSenderChatMapper.toTelegram(options);
+
+		return this.send<true>("unbanChatSenderChat", params);
+	}
+
+	async setChatPermissions(
+		options: TgAirBot.SetChatPermissions,
+	): Promise<true> {
+		const params = SetChatPermissionsMapper.toTelegram(options);
+
+		return this.send<true>("setChatPermissions", params);
+	}
+
+	async exportChatInviteLink(
+		options: TgAirBot.ExportChatInviteLink,
+	): Promise<string> {
+		const params = ExportChatInviteLinkMapper.toTelegram(options);
+
+		return this.send<string>("exportChatInviteLink", params);
+	}
+
+	async createChatInviteLink(
+		options: TgAirBot.CreateChatInviteLink,
+	): Promise<TgAirBot.ChatInviteLink> {
+		const params = CreateChatInviteLinkMapper.toTelegram(options);
+
+		const inviteLink = await this.send<Telegram.ChatInviteLink>(
+			"createChatInviteLink",
+			params,
+		);
+
+		return ChatMapper.chatInviteLinkToTAB(inviteLink);
+	}
+
+	async editChatInviteLink(
+		options: TgAirBot.EditChatInviteLink,
+	): Promise<TgAirBot.ChatInviteLink> {
+		const params = EditChatInviteLinkMapper.toTelegram(options);
+
+		const inviteLink = await this.send<Telegram.ChatInviteLink>(
+			"editChatInviteLink",
+			params,
+		);
+
+		return ChatMapper.chatInviteLinkToTAB(inviteLink);
+	}
+
+	async revokeChatInviteLink(
+		options: TgAirBot.RevokeChatInviteLink,
+	): Promise<TgAirBot.ChatInviteLink> {
+		const params = RevokeChatInviteLinkMapper.toTelegram(options);
+
+		const inviteLink = await this.send<Telegram.ChatInviteLink>(
+			"revokeChatInviteLink",
+			params,
+		);
+
+		return ChatMapper.chatInviteLinkToTAB(inviteLink);
+	}
+
+	async approveChatJoinRequest(
+		options: TgAirBot.ApproveChatJoinRequest,
+	): Promise<true> {
+		const params = ApproveChatJoinRequestMapper.toTelegram(options);
+
+		return this.send<true>("approveChatJoinRequest", params);
+	}
+
+	async declineChatJoinRequest(
+		options: TgAirBot.DeclineChatJoinRequest,
+	): Promise<true> {
+		const params = DeclineChatJoinRequestMapper.toTelegram(options);
+
+		return this.send<true>("declineChatJoinRequest", params);
+	}
+
+	async setChatPhoto(options: TgAirBot.SetChatPhoto): Promise<true> {
+		const params = SetChatPhotoMapper.toTelegram(options);
+
+		return this.sendForm<true>("setChatPhoto", params);
+	}
+
+	async deleteChatPhoto(options: TgAirBot.DeleteChatPhoto): Promise<true> {
+		const params = DeleteChatPhotoMapper.toTelegram(options);
+
+		return this.send<true>("deleteChatPhoto", params);
+	}
+
+	async setChatTitle(options: TgAirBot.SetChatTitle): Promise<true> {
+		const params = SetChatTitleMapper.toTelegram(options);
+
+		return this.send<true>("setChatTitle", params);
 	}
 }

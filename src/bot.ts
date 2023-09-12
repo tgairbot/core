@@ -18,17 +18,17 @@ export class Bot {
 
 			this.polling = new Polling(this.token, options);
 
-			this.polling.start();
+			this.polling.start().then();
 		} else if (this.options?.webhook) {
 			if (this.options.webhook) {
 				this.webhook = new Webhook(this.token, this.options.webhook);
 
-				this.webhook.start();
+				this.webhook.start().then();
 			}
 		} else if (this.options?.polling !== false) {
 			this.polling = new Polling(this.token);
 
-			this.polling.start();
+			this.polling.start().then();
 		}
 
 		if (!this.webhook && !this.polling) {

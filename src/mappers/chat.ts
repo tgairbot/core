@@ -95,6 +95,29 @@ export class ChatMapper {
 		return RemoveUndefinedKeysFromObject<TgAirBot.ChatPermissions>(entity);
 	}
 
+	static permissionsToTelegram(
+		permissions: TgAirBot.ChatPermissions,
+	): Telegram.ChatPermissions {
+		const entity: Telegram.ChatPermissions = {
+			can_change_info: permissions.canChangeInfo,
+			can_add_web_page_previews: permissions.canAddWebPagePreviews,
+			can_invite_users: permissions.canInviteUsers,
+			can_manage_topics: permissions.canManageTopics,
+			can_pin_messages: permissions.canPinMessages,
+			can_send_audios: permissions.canSendAudios,
+			can_send_documents: permissions.canSendDocuments,
+			can_send_messages: permissions.canSendMessages,
+			can_send_other_messages: permissions.canSendOtherMessages,
+			can_send_photos: permissions.canSendPhotos,
+			can_send_polls: permissions.canSendPolls,
+			can_send_video_notes: permissions.canSendVideoNotes,
+			can_send_videos: permissions.canSendVideos,
+			can_send_voice_notes: permissions.canSendVoiceNotes,
+		};
+
+		return RemoveUndefinedKeysFromObject<Telegram.ChatPermissions>(entity);
+	}
+
 	static chatSharedToTAB(
 		chatShared: Telegram.ChatShared,
 	): TgAirBot.ChatShared {
