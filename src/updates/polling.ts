@@ -42,6 +42,8 @@ export class Polling {
 		updates.forEach(update => this._handleUpdate(update));
 
 		setTimeout(() => this.start(), this.options.interval);
+
+		return this;
 	}
 
 	private async _getUpdates(params?: GetUpdates): Promise<Update[]> {
