@@ -4,7 +4,7 @@ import { Polling } from "./updates/polling";
 
 const TOKEN = "5608595917:AAGDGv6D9heC4nquo_AnuHlDU7w1SUi2bDk";
 
-new Polling(TOKEN, { log: false }).start();
+new Polling(TOKEN, { log: false }).start().then();
 
 const methods = new Methods(TOKEN);
 

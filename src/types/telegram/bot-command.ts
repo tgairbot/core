@@ -5,7 +5,7 @@ export interface BotCommand {
 
 export type BotCommandScope =
 	| BotCommandScopeDefault
-	| BotCommantScopeAllPrivateChats
+	| BotCommandScopeAllPrivateChats
 	| BotCommandScopeAllGroupChats
 	| BotCommandScopeAllChatAdministrators
 	| BotCommandScopeChat
@@ -16,7 +16,7 @@ export interface BotCommandScopeDefault {
 	type: "default";
 }
 
-export interface BotCommantScopeAllPrivateChats {
+export interface BotCommandScopeAllPrivateChats {
 	type: "all_private_chats";
 }
 
@@ -46,4 +46,12 @@ export interface BotCommandScopeChatMember {
 
 export interface BotName {
 	name: string;
+}
+
+export interface BotDescription {
+	description: string;
+}
+
+export interface BotShortDescription {
+	short_description: string;
 }

@@ -4,17 +4,7 @@ import { RemoveUndefinedKeysFromObject } from "../utils/remove-undefined-keys-fr
 import { MessageMapper } from "./message";
 
 export class InputMapper {
-	static groupToTelegram(
-		input:
-			| TgAirBot.InputMediaAudio
-			| TgAirBot.InputMediaDocument
-			| TgAirBot.InputMediaPhoto
-			| TgAirBot.InputMediaVideo,
-	):
-		| Telegram.InputMediaAudio
-		| Telegram.InputMediaDocument
-		| Telegram.InputMediaPhoto
-		| Telegram.InputMediaVideo {
+	static toTelegram(input: TgAirBot.InputMedia): Telegram.InputMedia {
 		switch (input.type) {
 			case "audio":
 				return InputMapper.audioToTelegram(input);
@@ -24,6 +14,8 @@ export class InputMapper {
 				return InputMapper.photoToTelegram(input);
 			case "video":
 				return InputMapper.videoToTelegram(input);
+			case "animation":
+				return InputMapper.animationToTelegram(input);
 		}
 	}
 
@@ -124,5 +116,34 @@ export class InputMapper {
 		}
 
 		return RemoveUndefinedKeysFromObject<Telegram.InputMediaVideo>(entity);
+	}
+
+	static animationToTelegram(
+		input: TgAirBot.InputMediaAnimation,
+	): Telegram.InputMediaAnimation {
+		const entity: Telegram.InputMediaAnimation = {
+			type: input.type,
+			thumbnail: input.thumbnail,
+			caption_entities: input.captionEntities
+				? input.captionEntities.map(
+						MessageMapper.messageEntityToTelegram,
+				  )
+				: undefined,
+			caption: input.caption,
+			media: input.media,
+			parse_mode: input.parseMode,
+			duration: input.duration,
+			has_spoiler: input.hasSpoiler,
+			height: input.height,
+			width: input.width,
+		};
+
+		if (typeof input.thumbnail !== "string") {
+			entity.thumbnail = input.thumbnail;
+		}
+
+		return RemoveUndefinedKeysFromObject<Telegram.InputMediaAnimation>(
+			entity,
+		);
 	}
 }

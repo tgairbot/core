@@ -20,12 +20,7 @@ import { Location } from "./location";
 import { Venue } from "./venue";
 import { Invoice, SuccessfulPayment } from "./payment";
 import { PassportData } from "./pasport";
-import {
-	ForceReply,
-	InlineKeyboardMarkup,
-	ReplyKeyboardMarkup,
-	ReplyKeyboardRemove,
-} from "./keyboard";
+import { InlineKeyboardMarkup } from "./keyboard";
 import {
 	ForumTopicClosed,
 	ForumTopicCreated,
@@ -34,7 +29,7 @@ import {
 	GeneralForumTopicHidden,
 	GeneralForumTopicUnhidden,
 } from "./forum";
-import { MessageEntityType, ParseMode } from "../telegram/message";
+import { MessageEntityType } from "../telegram";
 import { Animation } from "./animation";
 
 export interface Message {
@@ -47,7 +42,7 @@ export interface Message {
 	forwardFrom?: User;
 	forwardFromChat?: Chat;
 	forwardFromMessageId?: number;
-	forwardSigrature?: string;
+	forwardSignature?: string;
 	forwardSenderName?: string;
 	forwardDate?: number;
 	isTopicMessage?: true;
@@ -109,24 +104,6 @@ export interface Message {
 	videoChatParticipantsInvited?: VideoChatParticipantsInvited;
 	webAppData?: WebAppData;
 	replyMarkup?: InlineKeyboardMarkup;
-}
-
-export interface SendMessageOptions {
-	chatId: number | string;
-	messageThreadId?: number;
-	text: string;
-	parseMode?: ParseMode;
-	entities?: MessageEntity[];
-	disableWebPagePreview?: boolean;
-	disableNotification?: boolean;
-	protectContent?: boolean;
-	replyToMessageId?: number;
-	allowSendingWithoutReply?: boolean;
-	replyMarkup?:
-		| InlineKeyboardMarkup
-		| ReplyKeyboardMarkup
-		| ReplyKeyboardRemove
-		| ForceReply;
 }
 
 export interface MessageEntity {

@@ -1,3 +1,10 @@
+import * as Telegram from "../types/telegram";
+import * as TgAirBot from "../types/tgairbot";
+
+import { WrapRequest } from "../types/wrap-request";
+
+import { Client } from "./client";
+
 import { FileMapper } from "../mappers/file";
 import { MessageMapper } from "../mappers/message";
 import { BanChatMemberMapper } from "../mappers/methods/ban-chat-member";
@@ -22,11 +29,7 @@ import { SendVideoNoteMapper } from "../mappers/methods/send-video-note";
 import { SendVoiceMapper } from "../mappers/methods/send-voice";
 import { UnbanChatMemberMapper } from "../mappers/methods/unban-chat-member";
 import { UserMapper } from "../mappers/user";
-import * as Telegram from "../types/telegram";
-import * as TgAirBot from "../types/tgairbot";
 import { RestrictChatMemberMapper } from "../mappers/methods/restrict-chat-member";
-import { Client } from "./client";
-import { WrapRequest } from "../types/wrap-request";
 import { PromoteChatMemberMapper } from "../mappers/methods/promote-chat-member";
 import { SetChatAdministratorCustomTitleMapper } from "../mappers/methods/set-chat-administrator-custom-title";
 import { BanChatSenderChatMapper } from "../mappers/methods/ban-chat-sender-chat";
@@ -42,6 +45,55 @@ import { DeclineChatJoinRequestMapper } from "../mappers/methods/decline-chat-jo
 import { SetChatPhotoMapper } from "../mappers/methods/set-chat-photo";
 import { DeleteChatPhotoMapper } from "../mappers/methods/delete-chat-photo";
 import { SetChatTitleMapper } from "../mappers/methods/set-chat-title";
+import { SetChatDescriptionMapper } from "../mappers/methods/set-chat-description";
+import { PinChatMessageMapper } from "../mappers/methods/pin-chat-message";
+import { UnpinChatMessageMapper } from "../mappers/methods/unpin-chat-message";
+import { UnpinAllChatMessages } from "../mappers/methods/unpin-all-chat-messages";
+import { LeaveChatMapper } from "../mappers/methods/leave-chat";
+import { GetChatMapper } from "../mappers/methods/get-chat";
+import { GetChatAdministratorsMapper } from "../mappers/methods/get-chat-administrators";
+import { GetChatMemberCountMapper } from "../mappers/methods/get-chat-member-count";
+import { GetChatMemberMapper } from "../mappers/methods/get-chat-member";
+import { SetChatStickerSetMapper } from "../mappers/methods/set-chat-sticker-set";
+import { DeleteChatStickerSetMapper } from "../mappers/methods/delete-chat-sticker-set";
+import { StickerMapper } from "../mappers/sticker";
+import { CreateForumTopicMapper } from "../mappers/methods/create-forum-topic";
+import { ForumMapper } from "../mappers/forum";
+import { EditForumTopicMapper } from "../mappers/methods/edit-forum-topic";
+import { CloseForumTopicMapper } from "../mappers/methods/close-forum-topic";
+import { ReopenForumTopicMapper } from "../mappers/methods/reopen-forum-topic";
+import { DeleteForumTopicMapper } from "../mappers/methods/delete-forum-topic";
+import { UnpinAllForumTopicMessagesMapper } from "../mappers/methods/unpin-all-forum-topic-messages";
+import { EditGeneralForumTopicMapper } from "../mappers/methods/edit-general-forum-topic";
+import { CloseGeneralForumTopicMapper } from "../mappers/methods/close-general-forum-topic";
+import { ReopenGeneralForumTopicMapper } from "../mappers/methods/reopen-general-forum-topic";
+import { HideGeneralForumTopicMapper } from "../mappers/methods/hide-general-forum-topic";
+import { UnhideGeneralForumTopicMapper } from "../mappers/methods/unhide-general-forum-topic";
+import { UnpinAllGeneralForumTopicMessagesMapper } from "../mappers/methods/unpin-all-general-forum-topic-messages";
+import { AnswerCallbackQueryMapper } from "../mappers/methods/answer-callback-query";
+import { SetMyCommandsMapper } from "../mappers/methods/set-my-commands";
+import { DeleteMyCommandsMapper } from "../mappers/methods/delete-my-commands";
+import { GetMyCommandsMapper } from "../mappers/methods/get-my-commands";
+import {
+	BotCommandMapper,
+	BotDescriptionMapper,
+	BotNameMapper,
+	BotShortDescriptionMapper,
+} from "../mappers/bot-command";
+import { SetMyNameMapper } from "../mappers/methods/set-my-name";
+import { GetMyNameMapper } from "../mappers/methods/get-my-name";
+import { SetMyDescriptionMapper } from "../mappers/methods/set-my-description";
+import { GetMyDescriptionMapper } from "../mappers/methods/get-my-description";
+import { SetMyShortDescriptionMapper } from "../mappers/methods/set-my-short-description";
+import { GetMyShortDescriptionMapper } from "../mappers/methods/get-my-short-description";
+import { SetChatMenuButtonMapper } from "../mappers/methods/set-chat-menu-button";
+import { GetChatMenuButtonMapper } from "../mappers/methods/get-chat-menu-button";
+import { MenuButtonMapper } from "../mappers/menu";
+import { SetMyDefaultAdministratorRightsMapper } from "../mappers/methods/set-my-default-administrator-rights";
+import { GetMyDefaultAdministratorRightsMapper } from "../mappers/methods/get-my-default-administrator-rights";
+import { EditMessageTextMapper } from "../mappers/methods/edit-message-text";
+import { EditMessageCaptionMapper } from "../mappers/methods/edit-message-caption";
+import { EditMessageMediaMapper } from "../mappers/methods/edit-message-media";
 
 class BaseMethods {
 	constructor(private readonly token: string) {}
@@ -542,5 +594,389 @@ export class Methods extends BaseMethods {
 		const params = SetChatTitleMapper.toTelegram(options);
 
 		return this.send<true>("setChatTitle", params);
+	}
+
+	async setChatDescription(
+		options: TgAirBot.SetChatDescription,
+	): Promise<true> {
+		const params = SetChatDescriptionMapper.toTelegram(options);
+
+		return this.send<true>("setChatDescription", params);
+	}
+
+	async pinChatMessage(options: TgAirBot.PinChatMessage): Promise<true> {
+		const params = PinChatMessageMapper.toTelegram(options);
+
+		return this.send<true>("pinChatMessage", params);
+	}
+
+	async unpinChatMessage(options: TgAirBot.UnpinChatMessage): Promise<true> {
+		const params = UnpinChatMessageMapper.toTelegram(options);
+
+		return this.send<true>("unpinChatMessage", params);
+	}
+
+	async unpinAllChatMessages(
+		options: TgAirBot.UnpinAllChatMessages,
+	): Promise<true> {
+		const params = UnpinAllChatMessages.toTelegram(options);
+
+		return this.send<true>("unpinAllChatMessages", params);
+	}
+
+	async leaveChat(options: TgAirBot.LeaveChat): Promise<true> {
+		const params = LeaveChatMapper.toTelegram(options);
+
+		return this.send<true>("leaveChat", params);
+	}
+
+	async getChat(options: TgAirBot.GetChat): Promise<TgAirBot.Chat> {
+		const params = GetChatMapper.toTelegram(options);
+
+		const chat = await this.send<Telegram.Chat>("getChat", params);
+
+		return ChatMapper.toTAB(chat);
+	}
+
+	async getChatAdministrators(
+		options: TgAirBot.GetChatAdministrators,
+	): Promise<TgAirBot.ChatMember[]> {
+		const params = GetChatAdministratorsMapper.toTelegram(options);
+
+		const administrators = await this.send<Telegram.ChatMember[]>(
+			"getChatAdministrators",
+			params,
+		);
+
+		return administrators.map(ChatMapper.chatMemberToTab);
+	}
+
+	async getChatMemberCount(
+		options: TgAirBot.GetChatMemberCount,
+	): Promise<number> {
+		const params = GetChatMemberCountMapper.toTelegram(options);
+
+		return this.send<number>("getChatMemberCount", params);
+	}
+
+	async getChatMember(
+		options: TgAirBot.GetChatMember,
+	): Promise<TgAirBot.ChatMember> {
+		const params = GetChatMemberMapper.toTelegram(options);
+
+		const member = await this.send<Telegram.ChatMember>(
+			"getChatMember",
+			params,
+		);
+
+		return ChatMapper.chatMemberToTab(member);
+	}
+
+	async setChatStickerSet(
+		options: TgAirBot.SetChatStickerSet,
+	): Promise<true> {
+		const params = SetChatStickerSetMapper.toTelegram(options);
+
+		return this.send<true>("setChatStickerSet", params);
+	}
+
+	async deleteChatStickerSet(
+		options: TgAirBot.DeleteChatStickerSet,
+	): Promise<true> {
+		const params = DeleteChatStickerSetMapper.toTelegram(options);
+
+		return this.send<true>("deleteChatStickerSet", params);
+	}
+
+	async getForumTopicIconStickers(): Promise<TgAirBot.Sticker[]> {
+		const stickers = await this.send<Telegram.Sticker[]>(
+			"getForumTopicIconStickers",
+			{},
+		);
+
+		return stickers.map(StickerMapper.toTAB);
+	}
+
+	async createForumTopic(
+		options: TgAirBot.CreateForumTopic,
+	): Promise<TgAirBot.ForumTopic> {
+		const params = CreateForumTopicMapper.toTelegram(options);
+
+		const topic = await this.send<Telegram.ForumTopic>(
+			"createForumTopic",
+			params,
+		);
+
+		return ForumMapper.forumTopicToTAB(topic);
+	}
+
+	async editForumTopic(options: TgAirBot.EditForumTopic): Promise<true> {
+		const params = EditForumTopicMapper.toTelegram(options);
+
+		return this.send<true>("editForumTopic", params);
+	}
+
+	async closeForumTopic(options: TgAirBot.CloseForumTopic): Promise<true> {
+		const params = CloseForumTopicMapper.toTelegram(options);
+
+		return this.send<true>("closeForumTopic", params);
+	}
+
+	async reopenForumTopic(options: TgAirBot.ReopenForumTopic): Promise<true> {
+		const params = ReopenForumTopicMapper.toTelegram(options);
+
+		return this.send<true>("reopenForumTopic", params);
+	}
+
+	async deleteForumTopic(options: TgAirBot.DeleteForumTopic): Promise<true> {
+		const params = DeleteForumTopicMapper.toTelegram(options);
+
+		return this.send<true>("deleteForumTopic", params);
+	}
+
+	async unpinAllForumTopicMessages(
+		options: TgAirBot.UnpinAllForumTopicMessages,
+	): Promise<true> {
+		const params = UnpinAllForumTopicMessagesMapper.toTelegram(options);
+
+		return this.send<true>("unpinAllForumTopicMessages", params);
+	}
+
+	async editGeneralForumTopic(
+		options: TgAirBot.EditGeneralForumTopic,
+	): Promise<true> {
+		const params = EditGeneralForumTopicMapper.toTelegram(options);
+
+		return this.send<true>("editGeneralForumTopic", params);
+	}
+
+	async closeGeneralForumTopic(
+		options: TgAirBot.CloseGeneralForumTopic,
+	): Promise<true> {
+		const params = CloseGeneralForumTopicMapper.toTelegram(options);
+
+		return this.send<true>("closeGeneralForumTopic", params);
+	}
+
+	async reopenGeneralForumTopic(
+		options: TgAirBot.ReopenGeneralForumTopic,
+	): Promise<true> {
+		const params = ReopenGeneralForumTopicMapper.toTelegram(options);
+
+		return this.send<true>("reopenGeneralForumTopic", params);
+	}
+
+	async hideGeneralForumTopic(
+		options: TgAirBot.HideGeneralForumTopic,
+	): Promise<true> {
+		const params = HideGeneralForumTopicMapper.toTelegram(options);
+
+		return this.send<true>("hideGeneralForumTopic", params);
+	}
+
+	async unhideGeneralForumTopic(
+		options: TgAirBot.UnhideGeneralForumTopic,
+	): Promise<true> {
+		const params = UnhideGeneralForumTopicMapper.toTelegram(options);
+
+		return this.send<true>("unhideGeneralForumTopic", params);
+	}
+
+	async unpinAllGeneralForumTopicMessages(
+		options: TgAirBot.UnpinAllGeneralForumTopicMessages,
+	): Promise<true> {
+		const params =
+			UnpinAllGeneralForumTopicMessagesMapper.toTelegram(options);
+
+		return this.send<true>("unpinAllGeneralForumTopicMessages", params);
+	}
+
+	async answerCallbackQuery(
+		options: TgAirBot.AnswerCallbackQuery,
+	): Promise<true> {
+		const params = AnswerCallbackQueryMapper.toTelegram(options);
+
+		return this.send<true>("answerCallbackQuery", params);
+	}
+
+	async setMyCommands(options: TgAirBot.SetMyCommands): Promise<true> {
+		const params = SetMyCommandsMapper.toTelegram(options);
+
+		return this.send<true>("setMyCommands", params);
+	}
+
+	async deleteMyCommands(
+		options: TgAirBot.DeleteMyCommands = {},
+	): Promise<true> {
+		const params = DeleteMyCommandsMapper.toTelegram(options);
+
+		return this.send<true>("deleteMyCommands", params);
+	}
+
+	async getMyCommands(
+		options: TgAirBot.GetMyCommands = {},
+	): Promise<TgAirBot.BotCommand[]> {
+		const params = GetMyCommandsMapper.toTelegram(options);
+
+		const commands = await this.send<Telegram.BotCommand[]>(
+			"getMyCommands",
+			params,
+		);
+
+		return commands.map(BotCommandMapper.toTAB);
+	}
+
+	async setMyName(options: TgAirBot.SetMyName = {}): Promise<true> {
+		const params = SetMyNameMapper.toTelegram(options);
+
+		return this.send<true>("setMyName", params);
+	}
+
+	async getMyName(
+		options: TgAirBot.GetMyName = {},
+	): Promise<TgAirBot.BotName> {
+		const params = GetMyNameMapper.toTelegram(options);
+
+		const botName = await this.send<Telegram.BotName>("getMyName", params);
+
+		return BotNameMapper.toTAB(botName);
+	}
+
+	async setMyDescription(
+		options: TgAirBot.SetMyDescription = {},
+	): Promise<true> {
+		const params = SetMyDescriptionMapper.toTelegram(options);
+
+		return this.send<true>("setMyDescription", params);
+	}
+
+	async getMyDescription(
+		options: TgAirBot.GetMyDescription = {},
+	): Promise<TgAirBot.BotDescription> {
+		const params = GetMyDescriptionMapper.toTelegram(options);
+
+		const description = await this.send<Telegram.BotDescription>(
+			"getMyDescription",
+			params,
+		);
+
+		return BotDescriptionMapper.toTAB(description);
+	}
+
+	async setMyShortDescription(
+		options: TgAirBot.SetMyShortDescription = {},
+	): Promise<true> {
+		const params = SetMyShortDescriptionMapper.toTelegram(options);
+
+		return this.send<true>("setMyShortDescription", params);
+	}
+
+	async getMyShortDescription(
+		options: TgAirBot.GetMyShortDescription = {},
+	): Promise<TgAirBot.BotShortDescription> {
+		const params = GetMyShortDescriptionMapper.toTelegram(options);
+
+		const shortDescription = await this.send<Telegram.BotShortDescription>(
+			"getMyShortDescription",
+			params,
+		);
+
+		return BotShortDescriptionMapper.toTAB(shortDescription);
+	}
+
+	async setChatMenuButton(
+		options: TgAirBot.SetChatMenuButton = {},
+	): Promise<true> {
+		const params = SetChatMenuButtonMapper.toTelegram(options);
+
+		return this.send<true>("setChatMenuButton", params);
+	}
+
+	async getChatMenuButton(
+		options: TgAirBot.GetChatMenuButton = {},
+	): Promise<TgAirBot.MenuButton> {
+		const params = GetChatMenuButtonMapper.toTelegram(options);
+
+		const menuButton = await this.send<Telegram.MenuButton>(
+			"setChatMenuButton",
+			params,
+		);
+
+		return MenuButtonMapper.toTAB(menuButton);
+	}
+
+	async setMyDefaultAdministratorRights(
+		options: TgAirBot.SetMyDefaultAdministratorRights = {},
+	): Promise<true> {
+		const params =
+			SetMyDefaultAdministratorRightsMapper.toTelegram(options);
+
+		return this.send<true>("setMyDefaultAdministratorRights", params);
+	}
+
+	async getMyDefaultAdministratorRights(
+		options: TgAirBot.GetMyDefaultAdministratorRights = {},
+	): Promise<TgAirBot.ChatAdministratorRights> {
+		const params =
+			GetMyDefaultAdministratorRightsMapper.toTelegram(options);
+
+		const rights = await this.send<Telegram.ChatAdministratorRights>(
+			"getMyDefaultAdministratorRights",
+			params,
+		);
+
+		return ChatMapper.chatAdministratorRightsToTAB(rights);
+	}
+
+	async editMessageText(
+		options: TgAirBot.EditMessageText,
+	): Promise<TgAirBot.Message | true> {
+		const params = EditMessageTextMapper.toTelegram(options);
+
+		const res = await this.send<Telegram.Message | true>(
+			"editMessageText",
+			params,
+		);
+
+		if (typeof res === "boolean") return res;
+
+		return MessageMapper.toTAB(res);
+	}
+
+	async editMessageCaption(
+		options: TgAirBot.EditMessageCaption,
+	): Promise<TgAirBot.Message | true> {
+		const params = EditMessageCaptionMapper.toTelegram(options);
+
+		const res = await this.send<Telegram.Message | true>(
+			"editMessageCaption",
+			params,
+		);
+
+		if (typeof res === "boolean") return res;
+
+		return MessageMapper.toTAB(res);
+	}
+
+	async editMessageMedia(
+		options: TgAirBot.EditMessageMedia,
+	): Promise<TgAirBot.Message | true> {
+		const params = EditMessageMediaMapper.toTelegram(options);
+
+		const method =
+			"thumbnail" in params
+				? typeof params.thumbnail === "string"
+					? "send"
+					: "sendForm"
+				: "send";
+
+		const res = await this[method]<Telegram.Message | true>(
+			"editMessageMedia",
+			params,
+		);
+
+		if (typeof res === "boolean") return res;
+
+		return MessageMapper.toTAB(res);
 	}
 }

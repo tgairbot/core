@@ -194,6 +194,29 @@ export class ChatMapper {
 		);
 	}
 
+	static chatAdministratorRightsToTAB(
+		rights: Telegram.ChatAdministratorRights,
+	): TgAirBot.ChatAdministratorRights {
+		const entity: TgAirBot.ChatAdministratorRights = {
+			canChangeInfo: rights.can_change_info,
+			canDeleteMessages: rights.can_delete_messages,
+			canInviteUsers: rights.can_invite_users,
+			canManageTopics: rights.can_manage_topics,
+			canPinMessages: rights.can_pin_messages,
+			canPostMessages: rights.can_post_messages,
+			canEditMessages: rights.can_edit_messages,
+			canManageChat: rights.can_manage_chat,
+			canManageVideoChats: rights.can_manage_video_chats,
+			canPromoteMembers: rights.can_promote_members,
+			canRestrictMembers: rights.can_restrict_members,
+			isAnonymous: rights.is_anonymous,
+		};
+
+		return RemoveUndefinedKeysFromObject<TgAirBot.ChatAdministratorRights>(
+			entity,
+		);
+	}
+
 	static chatMemberToTab(options: Telegram.ChatMember): TgAirBot.ChatMember {
 		if (options.status === "creator")
 			return ChatMapper.chatMemberOwnerToTAB(options);

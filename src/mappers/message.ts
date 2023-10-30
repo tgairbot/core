@@ -75,7 +75,7 @@ export class MessageMapper {
 			messageThreadId: message.message_thread_id,
 			migrateToChatId: message.migrate_to_chat_id,
 			connectedWebsite: message.connected_website,
-			forwardSigrature: message.forward_sigrature,
+			forwardSignature: message.forward_sigrature,
 			groupChatCreated: message.group_chat_created,
 			forwardSenderName: message.forward_sender_name,
 			migrateFromChatId: message.migrate_to_chat_id,

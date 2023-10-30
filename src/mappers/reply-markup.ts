@@ -18,6 +18,20 @@ export class ReplyMarkupMapper {
 		);
 	}
 
+	static toTelegram(
+		options: TgAirBot.InlineKeyboardMarkup,
+	): Telegram.InlineKeyboardMarkup {
+		const entity: Telegram.InlineKeyboardMarkup = {
+			inline_keyboard: options.inlineKeyboard.map(row =>
+				row.map(ReplyMarkupMapper.inlineKeyboardButtonToTelegram),
+			),
+		};
+
+		return RemoveUndefinedKeysFromObject<Telegram.InlineKeyboardMarkup>(
+			entity,
+		);
+	}
+
 	static inlineKeyboardButtonToTAB(
 		button: Telegram.InlineKeyboardButton,
 	): TgAirBot.InlineKeyboardButton {
