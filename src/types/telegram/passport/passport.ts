@@ -3,9 +3,9 @@ export interface PassportData {
 	credentials: EncryptedCredentials;
 }
 
-export type EncriptedPasportElementType =
-	| "pasport_datails"
-	| "pasport"
+export type EncryptedPassportElementType =
+	| "passport_details"
+	| "passport"
 	| "driver_license"
 	| "identity_card"
 	| "internal_passport"
@@ -19,7 +19,7 @@ export type EncriptedPasportElementType =
 	| "email";
 
 export interface EncryptedPassportElement {
-	type: EncriptedPasportElementType;
+	type: EncryptedPassportElementType;
 	data?: string;
 	phone_number?: string;
 	email?: string;

@@ -28,7 +28,7 @@ export type InlineQueryResult =
 export interface InlineQueryResultCachedAudio {
 	type: "audio";
 	id: string;
-	audioRFileId: string;
+	audioFileId: string;
 	caption?: string;
 	parseMode?: ParseMode;
 	captionEntities?: MessageEntity[];
@@ -65,7 +65,7 @@ export interface InlineQueryResultCachedMpeg4Gif {
 	type: "mpeg4_gif";
 	id: string;
 	mpeg4FileId: string;
-	ttitle?: string;
+	title?: string;
 	caption?: string;
 	parseMode?: ParseMode;
 	captionEntities?: MessageEntity[];

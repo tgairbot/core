@@ -64,7 +64,7 @@ export interface InlineQueryResultCachedMpeg4Gif {
 	type: "mpeg4_gif";
 	id: string;
 	mpeg4_file_id: string;
-	ttitle?: string;
+	title?: string;
 	caption?: string;
 	parse_mode?: ParseMode;
 	caption_entities?: MessageEntity[];

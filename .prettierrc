@@ -10,5 +10,5 @@
   "arrowParens": "avoid",
   "parser": "typescript",
   "proseWrap": "always",
-  "singleAttributePerLine": true
+  "singleAttributePerLine": true,
 }

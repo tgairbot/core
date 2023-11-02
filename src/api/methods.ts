@@ -94,6 +94,38 @@ import { GetMyDefaultAdministratorRightsMapper } from "../mappers/methods/get-my
 import { EditMessageTextMapper } from "../mappers/methods/edit-message-text";
 import { EditMessageCaptionMapper } from "../mappers/methods/edit-message-caption";
 import { EditMessageMediaMapper } from "../mappers/methods/edit-message-media";
+import { EditMessageLiveLocationMapper } from "../mappers/methods/edit-message-live-location";
+import { StopMessageLiveLocationMapper } from "../mappers/methods/stop-message-live-location";
+import { EditMessageReplyMarkupMapper } from "../mappers/methods/edit-message-reply-markup";
+import { StopPollMapper } from "../mappers/methods/stop-poll";
+import { DeleteMessageMapper } from "../mappers/methods/delete-message";
+import { SendStickerMapper } from "../mappers/methods/send-sticker";
+import { GetStickerSetMapper } from "../mappers/methods/get-sticker-set";
+import { GetCustomEmojiStickersMapper } from "../mappers/methods/get-custom-emoji-stickers";
+import { UploadStickerFileMapper } from "../mappers/methods/upload-sticker-file";
+import { CreateNewStickerMapper } from "../mappers/methods/create-new-sticker";
+import { AddStickerToSetMapper } from "../mappers/methods/add-sticker-to-set";
+import { SetStickerPositionInSetMapper } from "../mappers/methods/set-sticker-position-in-set";
+import { DeleteStickerFromSetMapper } from "../mappers/methods/delete-sticker-from-set";
+import { SetStickerEmojiListMapper } from "../mappers/methods/set-sticker-emoji-list";
+import { SetStickerKeywordsMapper } from "../mappers/methods/set-sticker-keywords";
+import { SetStickerMaskPositionMapper } from "../mappers/methods/set-sticker-mask-position";
+import { SetStickerSetTitleMapper } from "../mappers/methods/set-sticker-set-title";
+import { SetStickerSetThumbnailMapper } from "../mappers/methods/set-sticker-set-thumbnail";
+import { SetCustomEmojiStickerSetThumbnailMapper } from "../mappers/methods/set-custom-emoji-sticker-set-thumbnail";
+import { DeleteStickerSetMapper } from "../mappers/methods/delete-sticker-set";
+import { AnswerInlineQueryMapper } from "../mappers/inline-query/answer-inline-query";
+import { AnswerWebAppQueryMapper } from "../mappers/inline-query/answer-web-app-query";
+import { SentWebAppMessageMapper } from "../mappers/inline-query/sent-web-app-message";
+import { SendInvoiceMapper } from "../mappers/methods/send-invoice";
+import { CreateInvoiceLinkMapper } from "../mappers/methods/create-invoice-link";
+import { AnswerShippingQueryMapper } from "../mappers/methods/answer-shipping-query";
+import { AnswerPreCheckoutQueryMapper } from "../mappers/methods/answer-pre-checkout-query";
+import { SetPassportDataErrorsMapper } from "../mappers/methods/set-passport-data-errors";
+import { SendGameMapper } from "../mappers/methods/send-game";
+import { SetGameScoreMapper } from "../mappers/methods/set-game-score";
+import { GetGameHighScoresMapper } from "../mappers/methods/get-game-high-scores";
+import { GameMapper } from "../mappers/game";
 
 class BaseMethods {
 	constructor(private readonly token: string) {}
@@ -964,8 +996,8 @@ export class Methods extends BaseMethods {
 		const params = EditMessageMediaMapper.toTelegram(options);
 
 		const method =
-			"thumbnail" in params
-				? typeof params.thumbnail === "string"
+			"thumbnail" in params.media
+				? typeof params.media.thumbnail === "string"
 					? "send"
 					: "sendForm"
 				: "send";
@@ -978,5 +1010,311 @@ export class Methods extends BaseMethods {
 		if (typeof res === "boolean") return res;
 
 		return MessageMapper.toTAB(res);
+	}
+
+	async editMessageLiveLocation(
+		options: TgAirBot.EditMessageLiveLocation,
+	): Promise<TgAirBot.Message | true> {
+		const params = EditMessageLiveLocationMapper.toTelegram(options);
+
+		const res = await this.send<Telegram.Message | true>(
+			"editMessageLiveLocation",
+			params,
+		);
+
+		if (typeof res === "boolean") return res;
+
+		return MessageMapper.toTAB(res);
+	}
+
+	async stopMessageLiveLocation(
+		options: TgAirBot.StopMessageLiveLocation,
+	): Promise<TgAirBot.Message | true> {
+		const params = StopMessageLiveLocationMapper.toTelegram(options);
+
+		const res = await this.send<Telegram.Message | true>(
+			"stopMessageLiveLocation",
+			params,
+		);
+
+		if (typeof res === "boolean") return res;
+
+		return MessageMapper.toTAB(res);
+	}
+
+	async editMessageReplyMarkup(
+		options: TgAirBot.EditMessageReplyMarkup,
+	): Promise<TgAirBot.Message | true> {
+		const params = EditMessageReplyMarkupMapper.toTelegram(options);
+
+		const res = await this.send<Telegram.Message | true>(
+			"editMessageReplyMarkup",
+			params,
+		);
+
+		if (typeof res === "boolean") return res;
+
+		return MessageMapper.toTAB(res);
+	}
+
+	async stopPoll(options: TgAirBot.StopPoll): Promise<TgAirBot.Message> {
+		const params = StopPollMapper.toTelegram(options);
+
+		const message = await this.send<Telegram.Message>("stopPoll", params);
+
+		return MessageMapper.toTAB(message);
+	}
+
+	async deleteMessage(options: TgAirBot.DeleteMessage): Promise<true> {
+		const params = DeleteMessageMapper.toTelegram(options);
+
+		return this.send<true>("deleteMessage", params);
+	}
+
+	async sendSticker(
+		options: TgAirBot.SendSticker,
+	): Promise<TgAirBot.Message> {
+		const params = SendStickerMapper.toTelegram(options);
+
+		const methodName =
+			typeof params.sticker === "string" ? "send" : "sendForm";
+
+		const message = await this[methodName]<Telegram.Message>(
+			"sendSticker",
+			params,
+		);
+
+		return MessageMapper.toTAB(message);
+	}
+
+	async getStickerSet(
+		options: TgAirBot.GetStickerSet,
+	): Promise<TgAirBot.StickerSet> {
+		const stickerSet = await this.send<Telegram.StickerSet>(
+			"getStickerSet",
+			GetStickerSetMapper.toTelegram(options),
+		);
+
+		return StickerMapper.stickerSetToTAB(stickerSet);
+	}
+
+	async getCustomEmojiStickers(
+		options: TgAirBot.GetCustomEmojiStickers,
+	): Promise<TgAirBot.Sticker[]> {
+		const stickers = await this.send<Telegram.Sticker[]>(
+			"getCustomEmojiStickers",
+			GetCustomEmojiStickersMapper.toTelegram(options),
+		);
+
+		return stickers.map(StickerMapper.toTAB);
+	}
+
+	async uploadStickerFile(
+		options: TgAirBot.UploadStickerFile,
+	): Promise<TgAirBot.File> {
+		const file = await this.send<Telegram.File>(
+			"uploadStickerFile",
+			UploadStickerFileMapper.toTelegram(options),
+		);
+
+		return FileMapper.toTAB(file);
+	}
+
+	async createNewSticker(options: TgAirBot.CreateNewSticker): Promise<true> {
+		return this.send<true>(
+			"createNewSticker",
+			CreateNewStickerMapper.toTelegram(options),
+		);
+	}
+
+	async addStickerToSet(options: TgAirBot.AddStickerToSet): Promise<true> {
+		return this.send<true>(
+			"addStickerToSet",
+			AddStickerToSetMapper.toTelegram(options),
+		);
+	}
+
+	async setStickerPositionInSet(
+		options: TgAirBot.SetStickerPositionInSet,
+	): Promise<true> {
+		return this.send<true>(
+			"setStickerPositionInSet",
+			SetStickerPositionInSetMapper.toTelegram(options),
+		);
+	}
+
+	async deleteStickerFromSet(
+		options: TgAirBot.DeleteStickerFromSet,
+	): Promise<true> {
+		return this.send<true>(
+			"deleteStickerFromSet",
+			DeleteStickerFromSetMapper.toTelegram(options),
+		);
+	}
+
+	async setStickerEmojiList(
+		options: TgAirBot.SetStickerEmojiList,
+	): Promise<true> {
+		return this.send<true>(
+			"setStickerEmojiList",
+			SetStickerEmojiListMapper.toTelegram(options),
+		);
+	}
+
+	async setStickerKeywords(
+		options: TgAirBot.SetStickerKeywords,
+	): Promise<true> {
+		return this.send<true>(
+			"setStickerKeywords",
+			SetStickerKeywordsMapper.toTelegram(options),
+		);
+	}
+
+	async setStickerMaskPosition(
+		options: TgAirBot.SetStickerMaskPosition,
+	): Promise<true> {
+		return this.send<true>(
+			"setStickerMaskPosition",
+			SetStickerMaskPositionMapper.toTelegram(options),
+		);
+	}
+
+	async setStickerSetTitle(
+		options: TgAirBot.SetStickerSetTitle,
+	): Promise<true> {
+		return this.send<true>(
+			"setStickerSetTitle",
+			SetStickerSetTitleMapper.toTelegram(options),
+		);
+	}
+
+	async setStickerSetThumbnail(
+		options: TgAirBot.SetStickerSetThumbnail,
+	): Promise<true> {
+		const params = SetStickerSetThumbnailMapper.toTelegram(options);
+
+		if (params.thumbnail && typeof params.thumbnail !== "string") {
+			return this.sendForm<true>("setStickerSetThumbnail", params);
+		} else {
+			return this.send<true>("setStickerSetThumbnail", params);
+		}
+	}
+
+	async setCustomEmojiStickerSetThumbnail(
+		options: TgAirBot.SetCustomEmojiStickerSetThumbnail,
+	): Promise<true> {
+		return this.send<true>(
+			"setCustomEmojiStickerSetThumbnail",
+			SetCustomEmojiStickerSetThumbnailMapper.toTelegram(options),
+		);
+	}
+
+	async deleteStickerSet(options: TgAirBot.DeleteStickerSet): Promise<true> {
+		return this.send<true>(
+			"deleteStickerSet",
+			DeleteStickerSetMapper.toTelegram(options),
+		);
+	}
+
+	async answerInlineQuery(
+		options: TgAirBot.AnswerInlineQuery,
+	): Promise<true> {
+		return this.send<true>(
+			"answerInlineQuery",
+			AnswerInlineQueryMapper.toTelegram(options),
+		);
+	}
+
+	async answerWebAppQuery(
+		options: TgAirBot.AnswerWebAppQuery,
+	): Promise<TgAirBot.SentWebAppMessage> {
+		const message = await this.send<Telegram.SentWebAppMessage>(
+			"answerWebAppQuery",
+			AnswerWebAppQueryMapper.toTelegram(options),
+		);
+
+		return SentWebAppMessageMapper.toTAB(message);
+	}
+
+	async sendInvoice(
+		options: TgAirBot.SendInvoice,
+	): Promise<TgAirBot.Message> {
+		const message = await this.send<Telegram.Message>(
+			"sendInvoice",
+			SendInvoiceMapper.toTelegram(options),
+		);
+
+		return MessageMapper.toTAB(message);
+	}
+
+	async createInvoiceLink(
+		options: TgAirBot.CreateInvoiceLink,
+	): Promise<string> {
+		return this.send<string>(
+			"createInvoiceLink",
+			CreateInvoiceLinkMapper.toTelegram(options),
+		);
+	}
+
+	async answerShippingQuery(
+		options: TgAirBot.AnswerShippingQuery,
+	): Promise<true> {
+		return this.send<true>(
+			"answerShippingQuery",
+			AnswerShippingQueryMapper.toTelegram(options),
+		);
+	}
+
+	async answerPreCheckoutQuery(
+		options: TgAirBot.AnswerPreCheckoutQuery,
+	): Promise<true> {
+		return this.send<true>(
+			"answerPreCheckoutQuery",
+			AnswerPreCheckoutQueryMapper.toTelegram(options),
+		);
+	}
+
+	async setPassportDataErrors(
+		options: TgAirBot.SetPassportDataErrors,
+	): Promise<true> {
+		return this.send<true>(
+			"setPassportDataErrors",
+			SetPassportDataErrorsMapper.toTelegram(options),
+		);
+	}
+
+	async sendGame(options: TgAirBot.SendGame): Promise<TgAirBot.Message> {
+		const message = await this.send<Telegram.Message>(
+			"sendGame",
+			SendGameMapper.toTelegram(options),
+		);
+
+		return MessageMapper.toTAB(message);
+	}
+
+	async setGameScore(
+		options: TgAirBot.SetGameScore,
+	): Promise<TgAirBot.Message | true> {
+		const res = await this.send<Telegram.Message | true>(
+			"setGameScore",
+			SetGameScoreMapper.toTelegram(options),
+		);
+
+		if (typeof res === "boolean") {
+			return res;
+		}
+
+		return MessageMapper.toTAB(res);
+	}
+
+	async getGameHighScores(
+		options: TgAirBot.GetGameHighScores,
+	): Promise<TgAirBot.GameHighScore[]> {
+		const scores = await this.send<Telegram.GameHighScore[]>(
+			"getGameHighScores",
+			GetGameHighScoresMapper.toTelegram(options),
+		);
+
+		return scores.map(GameMapper.gameHighScoreToTAB);
 	}
 }

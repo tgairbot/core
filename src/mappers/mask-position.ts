@@ -13,4 +13,15 @@ export class MaskPositionMapper {
 
 		return RemoveUndefinedKeysFromObject<TgAirBot.MaskPosition>(entity);
 	}
+
+	static toTelegram(options: TgAirBot.MaskPosition): Telegram.MaskPosition {
+		const entity: Telegram.MaskPosition = {
+			scale: options.scale,
+			point: options.point,
+			x_shift: options.xShift,
+			y_shift: options.yShift,
+		};
+
+		return RemoveUndefinedKeysFromObject<Telegram.MaskPosition>(entity);
+	}
 }

@@ -115,7 +115,7 @@ export class Client {
 			statusCode,
 			statusMessage,
 			headers,
-			body: body as Body,
+			body: body as unknown as Body,
 			url: this.url,
 			method,
 		};

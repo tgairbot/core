@@ -10,7 +10,7 @@ import { DocumentMapper } from "./document";
 import { ForumMapper } from "./forum";
 import { GameMapper } from "./game";
 import { LocationMapper } from "./location";
-import { PassportMapper } from "./passport";
+import { PassportMapper } from "./passport/passport";
 import { PaymentMapper } from "./payment";
 import { PhotoMapper } from "./photo";
 import { PollMapper } from "./poll";

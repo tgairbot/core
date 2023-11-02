@@ -4,7 +4,7 @@ import { RemoveUndefinedKeysFromObject } from "../../utils/remove-undefined-keys
 import { InlineQueryResultMapper } from "./inline-query-result";
 import { InlineQueryResultsButtonMapper } from "./inline-query-results-button";
 
-export class AnswerInlineQuery {
+export class AnswerInlineQueryMapper {
 	static toTAB(
 		options: Telegram.AnswerInlineQuery,
 	): TgAirBot.AnswerInlineQuery {
@@ -20,6 +20,25 @@ export class AnswerInlineQuery {
 		};
 
 		return RemoveUndefinedKeysFromObject<TgAirBot.AnswerInlineQuery>(
+			entity,
+		);
+	}
+
+	static toTelegram(
+		options: TgAirBot.AnswerInlineQuery,
+	): Telegram.AnswerInlineQuery {
+		const entity: Telegram.AnswerInlineQuery = {
+			inline_query_id: options.inlineQueryId,
+			button: options.button
+				? InlineQueryResultsButtonMapper.toTelegram(options.button)
+				: undefined,
+			cache_time: options.cacheTime,
+			results: options.results.map(InlineQueryResultMapper.toTelegram),
+			is_personal: options.isPersonal,
+			next_offset: options.nextOffset,
+		};
+
+		return RemoveUndefinedKeysFromObject<Telegram.AnswerInlineQuery>(
 			entity,
 		);
 	}

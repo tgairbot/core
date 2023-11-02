@@ -1,7 +1,7 @@
 import { PhotoSize } from "./photo";
 import { File } from "./file";
 import { MaskPosition } from "./mask-position";
-import { StickerType } from "../telegram/sticker";
+import { StickerType } from "../telegram";
 
 export interface Sticker {
 	fileId: string;
@@ -19,4 +19,21 @@ export interface Sticker {
 	customEmojiId?: string;
 	needsRepainting?: true;
 	fileSize?: number;
+}
+
+export interface InputSticker {
+	sticker: string;
+	emojiList: string[];
+	maskPosition?: MaskPosition;
+	keywords?: string[];
+}
+
+export interface StickerSet {
+	name: string;
+	title: string;
+	stickerType: StickerType;
+	isAnimated: boolean;
+	isVideo: boolean;
+	stickers: Sticker[];
+	thumbnail?: PhotoSize;
 }

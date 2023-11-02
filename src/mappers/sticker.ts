@@ -33,4 +33,35 @@ export class StickerMapper {
 
 		return RemoveUndefinedKeysFromObject<TgAirBot.Sticker>(entity);
 	}
+
+	static stickerSetToTAB(options: Telegram.StickerSet): TgAirBot.StickerSet {
+		const entity: TgAirBot.StickerSet = {
+			stickerType: options.sticker_type,
+			isVideo: options.is_video,
+			stickers: options.stickers.map(StickerMapper.toTAB),
+			isAnimated: options.is_animated,
+			name: options.name,
+			title: options.title,
+			thumbnail: options.thumbnail
+				? PhotoMapper.toTAB(options.thumbnail)
+				: undefined,
+		};
+
+		return RemoveUndefinedKeysFromObject<TgAirBot.StickerSet>(entity);
+	}
+
+	static inputStickerToTelegram(
+		options: TgAirBot.InputSticker,
+	): Telegram.InputSticker {
+		const entity: Telegram.InputSticker = {
+			sticker: options.sticker,
+			emoji_list: options.emojiList,
+			keywords: options.keywords,
+			mask_position: options.maskPosition
+				? MaskPositionMapper.toTelegram(options.maskPosition)
+				: undefined,
+		};
+
+		return RemoveUndefinedKeysFromObject<Telegram.InputSticker>(entity);
+	}
 }

@@ -14,7 +14,9 @@ export class SendMediaGroupMapper {
 			reply_to_message_id: options.replyToMessageId,
 			disable_notification: options.disableNotification,
 			allow_sending_without_reply: options.allowSendingWithoutReply,
-			media: options.media.map(InputMapper.toTelegram),
+			media: options.media.map(
+				InputMapper.toTelegram,
+			) as unknown as Telegram.SendMediaGroup["media"],
 		};
 
 		return RemoveUndefinedKeysFromObject<Telegram.SendMediaGroup>(entity);

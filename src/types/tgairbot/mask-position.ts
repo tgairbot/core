@@ -1,4 +1,4 @@
-import { MaskPositionPoint } from "../telegram/mask-position";
+import { MaskPositionPoint } from "../telegram";
 
 export interface MaskPosition {
 	point: MaskPositionPoint;

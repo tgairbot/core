@@ -6,116 +6,221 @@ import { ReplyMarkupMapper } from "../reply-markup";
 import { InputMessageContentMapper } from "./input-message-content";
 
 // Voice types
-type SelectedVoice =
+type SelectedVoiceTAB =
 	| Telegram.InlineQueryResultVoice
 	| Telegram.InlineQueryResultCachedVoice;
-type CombineVoice = Telegram.InlineQueryResultVoice &
+type CombineVoiceTAB = Telegram.InlineQueryResultVoice &
 	Telegram.InlineQueryResultCachedVoice;
-type ConditionalVoice<
+type ConditionalVoiceTAB<
 	T extends
 		| Telegram.InlineQueryResultVoice
 		| Telegram.InlineQueryResultCachedVoice,
 > = T extends Telegram.InlineQueryResultVoice
 	? TgAirBot.InlineQueryResultVoice
 	: TgAirBot.InlineQueryResultCachedVoice;
-type TgCombineVoice = TgAirBot.InlineQueryResultVoice &
+type TgCombineVoiceTAB = TgAirBot.InlineQueryResultVoice &
 	TgAirBot.InlineQueryResultCachedVoice;
 
+type SelectedVoiceTelegram =
+	| TgAirBot.InlineQueryResultVoice
+	| TgAirBot.InlineQueryResultCachedVoice;
+type CombineVoiceTelegram = TgAirBot.InlineQueryResultVoice &
+	TgAirBot.InlineQueryResultCachedVoice;
+type ConditionalVoiceTelegram<
+	T extends
+		| TgAirBot.InlineQueryResultVoice
+		| TgAirBot.InlineQueryResultCachedVoice,
+> = T extends TgAirBot.InlineQueryResultVoice
+	? Telegram.InlineQueryResultVoice
+	: Telegram.InlineQueryResultCachedVoice;
+type TgCombineVoiceTelegram = Telegram.InlineQueryResultVoice &
+	Telegram.InlineQueryResultCachedVoice;
+
 // Audio types
-type SelectedAudio =
+type SelectedAudioTAB =
 	| Telegram.InlineQueryResultAudio
 	| Telegram.InlineQueryResultCachedAudio;
-type CombineAudio = Telegram.InlineQueryResultAudio &
+type CombineAudioTAB = Telegram.InlineQueryResultAudio &
 	Telegram.InlineQueryResultCachedAudio;
-type ConditionalAudio<
+type ConditionalAudioTAB<
 	T extends
 		| Telegram.InlineQueryResultAudio
 		| Telegram.InlineQueryResultCachedAudio,
 > = T extends Telegram.InlineQueryResultAudio
 	? TgAirBot.InlineQueryResultAudio
 	: TgAirBot.InlineQueryResultCachedAudio;
-type TgCombineAudio = TgAirBot.InlineQueryResultAudio &
+type TgCombineAudioTAB = TgAirBot.InlineQueryResultAudio &
 	TgAirBot.InlineQueryResultCachedAudio;
 
+type SelectedAudioTelegram =
+	| TgAirBot.InlineQueryResultAudio
+	| TgAirBot.InlineQueryResultCachedAudio;
+type CombineAudioTelegram = TgAirBot.InlineQueryResultAudio &
+	TgAirBot.InlineQueryResultCachedAudio;
+type ConditionalAudioTelegram<
+	T extends
+		| TgAirBot.InlineQueryResultAudio
+		| TgAirBot.InlineQueryResultCachedAudio,
+> = T extends TgAirBot.InlineQueryResultAudio
+	? Telegram.InlineQueryResultAudio
+	: Telegram.InlineQueryResultCachedAudio;
+type TgCombineAudioTelegram = Telegram.InlineQueryResultAudio &
+	Telegram.InlineQueryResultCachedAudio;
+
 // Document types
-type SelectedDocument =
+type SelectedDocumentTAB =
 	| Telegram.InlineQueryResultDocument
 	| Telegram.InlineQueryResultCachedDocument;
-type CombineDocument = Telegram.InlineQueryResultDocument &
+type CombineDocumentTAB = Telegram.InlineQueryResultDocument &
 	Telegram.InlineQueryResultCachedDocument;
-type ConditionalDocument<
+type ConditionalDocumentTAB<
 	T extends
 		| Telegram.InlineQueryResultDocument
 		| Telegram.InlineQueryResultCachedDocument,
 > = T extends Telegram.InlineQueryResultDocument
 	? TgAirBot.InlineQueryResultDocument
 	: TgAirBot.InlineQueryResultCachedDocument;
-type TgCombineDocument = TgAirBot.InlineQueryResultDocument &
+type TgCombineDocumentTAB = TgAirBot.InlineQueryResultDocument &
 	TgAirBot.InlineQueryResultCachedDocument;
 
+type SelectedDocumentTelegram =
+	| TgAirBot.InlineQueryResultDocument
+	| TgAirBot.InlineQueryResultCachedDocument;
+type CombineDocumentTelegram = TgAirBot.InlineQueryResultDocument &
+	TgAirBot.InlineQueryResultCachedDocument;
+type ConditionalDocumentTelegram<
+	T extends
+		| TgAirBot.InlineQueryResultDocument
+		| TgAirBot.InlineQueryResultCachedDocument,
+> = T extends TgAirBot.InlineQueryResultDocument
+	? Telegram.InlineQueryResultDocument
+	: Telegram.InlineQueryResultCachedDocument;
+type TgCombineDocumentTelegram = Telegram.InlineQueryResultDocument &
+	Telegram.InlineQueryResultCachedDocument;
+
 // Gif types
-type SelectedGif =
+type SelectedGifTAB =
 	| Telegram.InlineQueryResultGif
 	| Telegram.InlineQueryResultCachedGif;
-type CombineGif = Telegram.InlineQueryResultGif &
+type CombineGifTAB = Telegram.InlineQueryResultGif &
 	Telegram.InlineQueryResultCachedGif;
-type ConditionalGif<
+type ConditionalGifTAB<
 	T extends
 		| Telegram.InlineQueryResultGif
 		| Telegram.InlineQueryResultCachedGif,
 > = T extends Telegram.InlineQueryResultGif
 	? TgAirBot.InlineQueryResultGif
 	: TgAirBot.InlineQueryResultCachedGif;
-type TgCombineGif = TgAirBot.InlineQueryResultGif &
+type TgCombineGifTAB = TgAirBot.InlineQueryResultGif &
 	TgAirBot.InlineQueryResultCachedGif;
 
+type SelectedGifTelegram =
+	| TgAirBot.InlineQueryResultGif
+	| TgAirBot.InlineQueryResultCachedGif;
+type CombineGifTelegram = TgAirBot.InlineQueryResultGif &
+	TgAirBot.InlineQueryResultCachedGif;
+type ConditionalGifTelegram<
+	T extends
+		| TgAirBot.InlineQueryResultGif
+		| TgAirBot.InlineQueryResultCachedGif,
+> = T extends TgAirBot.InlineQueryResultGif
+	? Telegram.InlineQueryResultGif
+	: Telegram.InlineQueryResultCachedGif;
+type TgCombineGifTelegram = Telegram.InlineQueryResultGif &
+	Telegram.InlineQueryResultCachedGif;
+
 // Video types
-type SelectedVideo =
+type SelectedVideoTAB =
 	| Telegram.InlineQueryResultVideo
 	| Telegram.InlineQueryResultCachedVideo;
-type CombineVideo = Telegram.InlineQueryResultVideo &
+type CombineVideoTAB = Telegram.InlineQueryResultVideo &
 	Telegram.InlineQueryResultCachedVideo;
-type ConditionalVideo<
+type ConditionalVideoTAB<
 	T extends
 		| Telegram.InlineQueryResultVideo
 		| Telegram.InlineQueryResultCachedVideo,
 > = T extends Telegram.InlineQueryResultVideo
 	? TgAirBot.InlineQueryResultVideo
 	: TgAirBot.InlineQueryResultCachedVideo;
-type TgCombineVideo = TgAirBot.InlineQueryResultVideo &
+type TgCombineVideoTAB = TgAirBot.InlineQueryResultVideo &
 	TgAirBot.InlineQueryResultCachedVideo;
 
+type SelectedVideoTelegram =
+	| TgAirBot.InlineQueryResultVideo
+	| TgAirBot.InlineQueryResultCachedVideo;
+type CombineVideoTelegram = TgAirBot.InlineQueryResultVideo &
+	TgAirBot.InlineQueryResultCachedVideo;
+type ConditionalVideoTelegram<
+	T extends
+		| TgAirBot.InlineQueryResultVideo
+		| TgAirBot.InlineQueryResultCachedVideo,
+> = T extends TgAirBot.InlineQueryResultVideo
+	? Telegram.InlineQueryResultVideo
+	: Telegram.InlineQueryResultCachedVideo;
+type TgCombineVideoTelegram = Telegram.InlineQueryResultVideo &
+	Telegram.InlineQueryResultCachedVideo;
+
 // Photo types
-type SelectedPhoto =
+type SelectedPhotoTAB =
 	| Telegram.InlineQueryResultPhoto
 	| Telegram.InlineQueryResultCachedPhoto;
-type CombinePhoto = Telegram.InlineQueryResultPhoto &
+type CombinePhotoTAB = Telegram.InlineQueryResultPhoto &
 	Telegram.InlineQueryResultCachedPhoto;
-type ConditionalPhoto<
+type ConditionalPhotoTAB<
 	T extends
 		| Telegram.InlineQueryResultPhoto
 		| Telegram.InlineQueryResultCachedPhoto,
 > = T extends Telegram.InlineQueryResultPhoto
 	? TgAirBot.InlineQueryResultPhoto
 	: TgAirBot.InlineQueryResultCachedPhoto;
-type TgCombinePhoto = TgAirBot.InlineQueryResultPhoto &
+type TgCombinePhotoTAB = TgAirBot.InlineQueryResultPhoto &
 	TgAirBot.InlineQueryResultCachedPhoto;
 
+type SelectedPhotoTelegram =
+	| TgAirBot.InlineQueryResultPhoto
+	| TgAirBot.InlineQueryResultCachedPhoto;
+type CombinePhotoTelegram = TgAirBot.InlineQueryResultPhoto &
+	TgAirBot.InlineQueryResultCachedPhoto;
+type ConditionalPhotoTelegram<
+	T extends
+		| TgAirBot.InlineQueryResultPhoto
+		| TgAirBot.InlineQueryResultCachedPhoto,
+> = T extends TgAirBot.InlineQueryResultPhoto
+	? Telegram.InlineQueryResultPhoto
+	: Telegram.InlineQueryResultCachedPhoto;
+type TgCombinePhotoTelegram = Telegram.InlineQueryResultPhoto &
+	Telegram.InlineQueryResultCachedPhoto;
+
 // Mpeg4Gif types
-type SelectedMpeg4Gif =
+type SelectedMpeg4GifTAB =
 	| Telegram.InlineQueryResultMpeg4Gif
 	| Telegram.InlineQueryResultCachedMpeg4Gif;
-type CombineMpeg4Gif = Telegram.InlineQueryResultMpeg4Gif &
+type CombineMpeg4GifTAB = Telegram.InlineQueryResultMpeg4Gif &
 	Telegram.InlineQueryResultCachedMpeg4Gif;
-type ConditionalMpeg4Gif<
+type ConditionalMpeg4GifTAB<
 	T extends
 		| Telegram.InlineQueryResultMpeg4Gif
 		| Telegram.InlineQueryResultCachedMpeg4Gif,
 > = T extends Telegram.InlineQueryResultMpeg4Gif
 	? TgAirBot.InlineQueryResultMpeg4Gif
 	: TgAirBot.InlineQueryResultCachedMpeg4Gif;
-type TgCombineMpeg4Gif = TgAirBot.InlineQueryResultMpeg4Gif &
+type TgCombineMpeg4GifTAB = TgAirBot.InlineQueryResultMpeg4Gif &
 	TgAirBot.InlineQueryResultCachedMpeg4Gif;
+
+type SelectedMpeg4GifTelegram =
+	| TgAirBot.InlineQueryResultMpeg4Gif
+	| TgAirBot.InlineQueryResultCachedMpeg4Gif;
+type CombineMpeg4GifTelegram = TgAirBot.InlineQueryResultMpeg4Gif &
+	TgAirBot.InlineQueryResultCachedMpeg4Gif;
+type ConditionalMpeg4GifTelegram<
+	T extends
+		| TgAirBot.InlineQueryResultMpeg4Gif
+		| TgAirBot.InlineQueryResultCachedMpeg4Gif,
+> = T extends TgAirBot.InlineQueryResultMpeg4Gif
+	? Telegram.InlineQueryResultMpeg4Gif
+	: Telegram.InlineQueryResultCachedMpeg4Gif;
+type TgCombineMpeg4GifTelegram = Telegram.InlineQueryResultMpeg4Gif &
+	Telegram.InlineQueryResultCachedMpeg4Gif;
 
 export class InlineQueryResultMapper {
 	static toTAB(
@@ -177,12 +282,71 @@ export class InlineQueryResultMapper {
 		}
 	}
 
-	static inlineQueryResultVoiceToTAB<T extends SelectedVoice>(
-		options: T,
-	): ConditionalVoice<T> {
-		const params = options as CombineVoice;
+	static toTelegram(
+		options: TgAirBot.InlineQueryResult,
+	): Telegram.InlineQueryResult {
+		switch (options.type) {
+			case "audio":
+				return InlineQueryResultMapper.inlineQueryResultAudioToTelegram(
+					options,
+				);
+			case "document":
+				return InlineQueryResultMapper.inlineQueryResultDocumentToTelegram(
+					options,
+				);
+			case "gif":
+				return InlineQueryResultMapper.inlineQueryResultGifToTelegram(
+					options,
+				);
+			case "mpeg4_gif":
+				return InlineQueryResultMapper.inlineQueryResultMpeg4GifToTelegram(
+					options,
+				);
+			case "photo":
+				return InlineQueryResultMapper.inlineQueryResultPhotoToTelegram(
+					options,
+				);
+			case "sticker":
+				return InlineQueryResultMapper.inlineQueryResultStickerToTelegram(
+					options,
+				);
+			case "video":
+				return InlineQueryResultMapper.inlineQueryResultVideoToTelegram(
+					options,
+				);
+			case "voice":
+				return InlineQueryResultMapper.inlineQueryResultVoiceToTelegram(
+					options,
+				);
+			case "article":
+				return InlineQueryResultMapper.inlineQueryResultArticleToTelegram(
+					options,
+				);
+			case "contact":
+				return InlineQueryResultMapper.inlineQueryResultContactToTelegram(
+					options,
+				);
+			case "game":
+				return InlineQueryResultMapper.inlineQueryResultGameToTelegram(
+					options,
+				);
+			case "location":
+				return InlineQueryResultMapper.inlineQueryResultLocationToTelegram(
+					options,
+				);
+			case "venue":
+				return InlineQueryResultMapper.inlineQueryResultVenueToTelegram(
+					options,
+				);
+		}
+	}
 
-		const entity: TgCombineVoice = {
+	static inlineQueryResultVoiceToTAB<T extends SelectedVoiceTAB>(
+		options: T,
+	): ConditionalVoiceTAB<T> {
+		const params = options as CombineVoiceTAB;
+
+		const entity: TgCombineVoiceTAB = {
 			id: params.id,
 			title: params.title,
 			type: params.type,
@@ -203,9 +367,44 @@ export class InlineQueryResultMapper {
 			voiceFileId: params.voice_file_id,
 		};
 
-		return RemoveUndefinedKeysFromObject<TgCombineVoice>(
+		return RemoveUndefinedKeysFromObject<TgCombineVoiceTAB>(
 			entity,
-		) as ConditionalVoice<T>;
+		) as ConditionalVoiceTAB<T>;
+	}
+
+	static inlineQueryResultVoiceToTelegram<T extends SelectedVoiceTelegram>(
+		options: T,
+	): ConditionalVoiceTelegram<T> {
+		const params = options as CombineVoiceTelegram;
+
+		const entity: TgCombineVoiceTelegram = {
+			id: params.id,
+			title: params.title,
+			type: params.type,
+			voice_url: params.voiceUrl,
+			caption: params.caption,
+			caption_entities: params.captionEntities
+				? params.captionEntities.map(
+						MessageMapper.messageEntityToTelegram,
+				  )
+				: undefined,
+			parse_mode: params.parseMode,
+			reply_markup: params.replyMarkup
+				? ReplyMarkupMapper.toTelegram(params.replyMarkup)
+				: undefined,
+			voice_duration: params.voiceDuration,
+			input_message_content: params.inputMessageContent
+				? InputMessageContentMapper.toTelegram(
+						params.inputMessageContent,
+				  )
+				: undefined,
+			description: params.description,
+			voice_file_id: params.voiceFileId,
+		};
+
+		return RemoveUndefinedKeysFromObject<TgCombineVoiceTelegram>(
+			entity,
+		) as ConditionalVoiceTelegram<T>;
 	}
 
 	static inlineQueryResultArticleToTAB(
@@ -234,12 +433,38 @@ export class InlineQueryResultMapper {
 		);
 	}
 
-	static inlineQueryResultAudioToTAB<T extends SelectedAudio>(
-		options: T,
-	): ConditionalAudio<T> {
-		const params = options as CombineAudio;
+	static inlineQueryResultArticleToTelegram(
+		options: TgAirBot.InlineQueryResultArticle,
+	): Telegram.InlineQueryResultArticle {
+		const entity: Telegram.InlineQueryResultArticle = {
+			id: options.id,
+			input_message_content: InputMessageContentMapper.toTelegram(
+				options.inputMessageContent,
+			),
+			title: options.title,
+			type: options.type,
+			description: options.description,
+			hide_url: options.hideUrl,
+			reply_markup: options.replyMarkup
+				? ReplyMarkupMapper.toTelegram(options.replyMarkup)
+				: undefined,
+			thumbnail_height: options.thumbnailHeight,
+			thumbnail_url: options.thumbnailUrl,
+			thumbnail_width: options.thumbnailWidth,
+			url: options.url,
+		};
 
-		const entity: TgCombineAudio = {
+		return RemoveUndefinedKeysFromObject<Telegram.InlineQueryResultArticle>(
+			entity,
+		);
+	}
+
+	static inlineQueryResultAudioToTAB<T extends SelectedAudioTAB>(
+		options: T,
+	): ConditionalAudioTAB<T> {
+		const params = options as CombineAudioTAB;
+
+		const entity: TgCombineAudioTAB = {
 			id: params.id,
 			audioUrl: params.audio_url,
 			title: params.title,
@@ -257,12 +482,47 @@ export class InlineQueryResultMapper {
 			replyMarkup: params.reply_markup
 				? ReplyMarkupMapper.toTAB(params.reply_markup)
 				: undefined,
-			audioRFileId: params.audio_file_id,
+			audioFileId: params.audio_file_id,
 		};
 
-		return RemoveUndefinedKeysFromObject<TgCombineAudio>(
+		return RemoveUndefinedKeysFromObject<TgCombineAudioTAB>(
 			entity,
-		) as ConditionalAudio<T>;
+		) as ConditionalAudioTAB<T>;
+	}
+
+	static inlineQueryResultAudioToTelegram<T extends SelectedAudioTelegram>(
+		options: T,
+	): ConditionalAudioTelegram<T> {
+		const params = options as CombineAudioTelegram;
+
+		const entity: TgCombineAudioTelegram = {
+			id: params.id,
+			audio_url: params.audioUrl,
+			title: params.title,
+			type: params.type,
+			audio_duration: params.audioDuration,
+			caption: params.caption,
+			caption_entities: params.captionEntities
+				? params.captionEntities.map(
+						MessageMapper.messageEntityToTelegram,
+				  )
+				: undefined,
+			input_message_content: params.inputMessageContent
+				? InputMessageContentMapper.toTelegram(
+						params.inputMessageContent,
+				  )
+				: undefined,
+			parse_mode: params.parseMode,
+			performer: params.performer,
+			reply_markup: params.replyMarkup
+				? ReplyMarkupMapper.toTelegram(params.replyMarkup)
+				: undefined,
+			audio_file_id: params.audioFileId,
+		};
+
+		return RemoveUndefinedKeysFromObject<TgCombineAudioTelegram>(
+			entity,
+		) as ConditionalAudioTelegram<T>;
 	}
 
 	static inlineQueryResultContactToTAB(
@@ -291,12 +551,40 @@ export class InlineQueryResultMapper {
 		);
 	}
 
-	static inlineQueryResultDocumentToTAB<T extends SelectedDocument>(
-		options: T,
-	): ConditionalDocument<T> {
-		const params = options as CombineDocument;
+	static inlineQueryResultContactToTelegram(
+		options: TgAirBot.InlineQueryResultContact,
+	): Telegram.InlineQueryResultContact {
+		const entity: Telegram.InlineQueryResultContact = {
+			first_name: options.firstName,
+			last_name: options.lastName,
+			id: options.id,
+			phone_number: options.phoneNumber,
+			type: options.type,
+			input_message_content: options.inputMessageContent
+				? InputMessageContentMapper.toTelegram(
+						options.inputMessageContent,
+				  )
+				: undefined,
+			reply_markup: options.replyMarkup
+				? ReplyMarkupMapper.toTelegram(options.replyMarkup)
+				: undefined,
+			vcard: options.vcard,
+			thumbnail_height: options.thumbnailHeight,
+			thumbnail_width: options.thumbnailWidth,
+			thumbnail_url: options.thumbnailUrl,
+		};
 
-		const entity: TgCombineDocument = {
+		return RemoveUndefinedKeysFromObject<Telegram.InlineQueryResultContact>(
+			entity,
+		);
+	}
+
+	static inlineQueryResultDocumentToTAB<T extends SelectedDocumentTAB>(
+		options: T,
+	): ConditionalDocumentTAB<T> {
+		const params = options as CombineDocumentTAB;
+
+		const entity: TgCombineDocumentTAB = {
 			documentUrl: params.document_url,
 			id: params.id,
 			mimeType: params.mime_type,
@@ -320,9 +608,47 @@ export class InlineQueryResultMapper {
 			documentFileId: params.document_file_id,
 		};
 
-		return RemoveUndefinedKeysFromObject<TgCombineDocument>(
+		return RemoveUndefinedKeysFromObject<TgCombineDocumentTAB>(
 			entity,
-		) as ConditionalDocument<T>;
+		) as ConditionalDocumentTAB<T>;
+	}
+
+	static inlineQueryResultDocumentToTelegram<
+		T extends SelectedDocumentTelegram,
+	>(options: T): ConditionalDocumentTelegram<T> {
+		const params = options as CombineDocumentTelegram;
+
+		const entity: TgCombineDocumentTelegram = {
+			document_file_id: params.documentFileId,
+			id: params.id,
+			mime_type: params.mimeType,
+			title: params.title,
+			type: params.type,
+			caption: params.caption,
+			caption_entities: params.captionEntities
+				? params.captionEntities.map(
+						MessageMapper.messageEntityToTelegram,
+				  )
+				: undefined,
+			description: params.description,
+			input_message_content: params.inputMessageContent
+				? InputMessageContentMapper.toTelegram(
+						params.inputMessageContent,
+				  )
+				: undefined,
+			parse_mode: params.parseMode,
+			reply_markup: params.replyMarkup
+				? ReplyMarkupMapper.toTelegram(params.replyMarkup)
+				: undefined,
+			document_url: params.documentUrl,
+			thumbnail_height: params.thumbnailHeight,
+			thumbnail_url: params.thumbnailUrl,
+			thumbnail_width: params.thumbnailWidth,
+		};
+
+		return RemoveUndefinedKeysFromObject<TgCombineDocumentTelegram>(
+			entity,
+		) as ConditionalDocumentTelegram<T>;
 	}
 
 	static inlineQueryResultGameToTAB(
@@ -342,12 +668,29 @@ export class InlineQueryResultMapper {
 		);
 	}
 
-	static inlineQueryResultGifToTAB<T extends SelectedGif>(
-		options: T,
-	): ConditionalGif<T> {
-		const params = options as CombineGif;
+	static inlineQueryResultGameToTelegram(
+		options: TgAirBot.InlineQueryResultGame,
+	): Telegram.InlineQueryResultGame {
+		const entity: Telegram.InlineQueryResultGame = {
+			game_short_name: options.gameShortName,
+			id: options.id,
+			type: options.type,
+			reply_markup: options.replyMarkup
+				? ReplyMarkupMapper.toTelegram(options.replyMarkup)
+				: undefined,
+		};
 
-		const entity: TgCombineGif = {
+		return RemoveUndefinedKeysFromObject<Telegram.InlineQueryResultGame>(
+			entity,
+		);
+	}
+
+	static inlineQueryResultGifToTAB<T extends SelectedGifTAB>(
+		options: T,
+	): ConditionalGifTAB<T> {
+		const params = options as CombineGifTAB;
+
+		const entity: TgCombineGifTAB = {
 			gifUrl: params.gif_url,
 			id: params.id,
 			thumbnailUrl: params.thumbnail_url,
@@ -371,9 +714,47 @@ export class InlineQueryResultMapper {
 			gifFileId: params.gif_file_id,
 		};
 
-		return RemoveUndefinedKeysFromObject<TgCombineGif>(
+		return RemoveUndefinedKeysFromObject<TgCombineGifTAB>(
 			entity,
-		) as ConditionalGif<T>;
+		) as ConditionalGifTAB<T>;
+	}
+
+	static inlineQueryResultGifToTelegram<T extends SelectedGifTelegram>(
+		options: T,
+	): ConditionalGifTelegram<T> {
+		const params = options as CombineGifTelegram;
+
+		const entity: TgCombineGifTelegram = {
+			gif_url: params.gifUrl,
+			id: params.id,
+			thumbnail_url: params.thumbnailUrl,
+			type: params.type,
+			caption: params.caption,
+			caption_entities: params.captionEntities
+				? params.captionEntities.map(
+						MessageMapper.messageEntityToTelegram,
+				  )
+				: undefined,
+			gif_duration: params.gifDuration,
+			gif_width: params.gifWidth,
+			gif_height: params.gifHeight,
+			input_message_content: params.inputMessageContent
+				? InputMessageContentMapper.toTelegram(
+						params.inputMessageContent,
+				  )
+				: undefined,
+			parse_mode: params.parseMode,
+			reply_markup: params.replyMarkup
+				? ReplyMarkupMapper.toTelegram(params.replyMarkup)
+				: undefined,
+			thumbnail_mime_type: params.thumbnailMimeType,
+			title: params.title,
+			gif_file_id: params.gifFileId,
+		};
+
+		return RemoveUndefinedKeysFromObject<TgCombineGifTelegram>(
+			entity,
+		) as ConditionalGifTelegram<T>;
 	}
 
 	static inlineQueryResultLocationToTAB(
@@ -405,12 +786,43 @@ export class InlineQueryResultMapper {
 		);
 	}
 
-	static inlineQueryResultMpeg4GifToTAB<T extends SelectedMpeg4Gif>(
-		options: T,
-	): ConditionalMpeg4Gif<T> {
-		const params = options as CombineMpeg4Gif;
+	static inlineQueryResultLocationToTelegram(
+		options: TgAirBot.InlineQueryResultLocation,
+	): Telegram.InlineQueryResultLocation {
+		const entity: Telegram.InlineQueryResultLocation = {
+			id: options.id,
+			latitude: options.latitude,
+			longitude: options.longitude,
+			title: options.title,
+			type: options.type,
+			heading: options.heading,
+			input_message_content: options.inputMessageContent
+				? InputMessageContentMapper.toTelegram(
+						options.inputMessageContent,
+				  )
+				: undefined,
+			live_period: options.livePeriod,
+			proximity_alert_radius: options.proximityAlertRadius,
+			reply_markup: options.replyMarkup
+				? ReplyMarkupMapper.toTelegram(options.replyMarkup)
+				: undefined,
+			thumbnail_height: options.thumbnailHeight,
+			thumbnail_width: options.thumbnailWidth,
+			thumbnail_url: options.thumbnailUrl,
+			horizontal_accuracy: options.horizontalAccuracy,
+		};
 
-		const entity: TgCombineMpeg4Gif = {
+		return RemoveUndefinedKeysFromObject<Telegram.InlineQueryResultLocation>(
+			entity,
+		);
+	}
+
+	static inlineQueryResultMpeg4GifToTAB<T extends SelectedMpeg4GifTAB>(
+		options: T,
+	): ConditionalMpeg4GifTAB<T> {
+		const params = options as CombineMpeg4GifTAB;
+
+		const entity: TgCombineMpeg4GifTAB = {
 			id: params.id,
 			mpeg4Url: params.mpeg4_url,
 			thumbnailUrl: params.thumbnail_url,
@@ -434,17 +846,55 @@ export class InlineQueryResultMapper {
 			mpeg4FileId: params.mpeg4_file_id,
 		};
 
-		return RemoveUndefinedKeysFromObject<TgCombineMpeg4Gif>(
+		return RemoveUndefinedKeysFromObject<TgCombineMpeg4GifTAB>(
 			entity,
-		) as ConditionalMpeg4Gif<T>;
+		) as ConditionalMpeg4GifTAB<T>;
 	}
 
-	static inlineQueryResultPhotoToTAB<T extends SelectedPhoto>(
-		options: T,
-	): ConditionalPhoto<T> {
-		const params = options as CombinePhoto;
+	static inlineQueryResultMpeg4GifToTelegram<
+		T extends SelectedMpeg4GifTelegram,
+	>(options: T): ConditionalMpeg4GifTelegram<T> {
+		const params = options as CombineMpeg4GifTelegram;
 
-		const entity: TgCombinePhoto = {
+		const entity: TgCombineMpeg4GifTelegram = {
+			id: params.id,
+			mpeg4_url: params.mpeg4Url,
+			thumbnail_url: params.thumbnailUrl,
+			type: params.type,
+			caption: params.caption,
+			caption_entities: params.captionEntities
+				? params.captionEntities.map(
+						MessageMapper.messageEntityToTelegram,
+				  )
+				: undefined,
+			input_message_content: params.inputMessageContent
+				? InputMessageContentMapper.toTelegram(
+						params.inputMessageContent,
+				  )
+				: undefined,
+			reply_markup: params.replyMarkup
+				? ReplyMarkupMapper.toTelegram(params.replyMarkup)
+				: undefined,
+			mpeg4_duration: params.mpeg4Duration,
+			title: params.title,
+			mpeg4_file_id: params.mpeg4FileId,
+			mpeg4_height: params.mpeg4Height,
+			parse_mode: params.parseMode,
+			mpeg4_width: params.mpeg4Width,
+			thumbnail_mime_type: params.thumbnailMimeType,
+		};
+
+		return RemoveUndefinedKeysFromObject<TgCombineMpeg4GifTelegram>(
+			entity,
+		) as ConditionalMpeg4GifTelegram<T>;
+	}
+
+	static inlineQueryResultPhotoToTAB<T extends SelectedPhotoTAB>(
+		options: T,
+	): ConditionalPhotoTAB<T> {
+		const params = options as CombinePhotoTAB;
+
+		const entity: TgCombinePhotoTAB = {
 			id: params.id,
 			photoUrl: params.photo_url,
 			thumbnailUrl: params.thumbnail_url,
@@ -467,9 +917,46 @@ export class InlineQueryResultMapper {
 			photoFileId: params.photo_file_id,
 		};
 
-		return RemoveUndefinedKeysFromObject<TgCombinePhoto>(
+		return RemoveUndefinedKeysFromObject<TgCombinePhotoTAB>(
 			entity,
-		) as ConditionalPhoto<T>;
+		) as ConditionalPhotoTAB<T>;
+	}
+
+	static inlineQueryResultPhotoToTelegram<T extends SelectedPhotoTelegram>(
+		options: T,
+	): ConditionalPhotoTelegram<T> {
+		const params = options as CombinePhotoTelegram;
+
+		const entity: TgCombinePhotoTelegram = {
+			id: params.id,
+			photo_url: params.photoUrl,
+			thumbnail_url: params.thumbnailUrl,
+			type: params.type,
+			caption: params.caption,
+			caption_entities: params.captionEntities
+				? params.captionEntities.map(
+						MessageMapper.messageEntityToTelegram,
+				  )
+				: undefined,
+			input_message_content: params.inputMessageContent
+				? InputMessageContentMapper.toTelegram(
+						params.inputMessageContent,
+				  )
+				: undefined,
+			reply_markup: params.replyMarkup
+				? ReplyMarkupMapper.toTelegram(params.replyMarkup)
+				: undefined,
+			description: params.description,
+			title: params.title,
+			photo_height: params.photoHeight,
+			photo_width: params.photoWidth,
+			parse_mode: params.parseMode,
+			photo_file_id: params.photoFileId,
+		};
+
+		return RemoveUndefinedKeysFromObject<TgCombinePhotoTelegram>(
+			entity,
+		) as ConditionalPhotoTelegram<T>;
 	}
 
 	static inlineQueryResultVenueToTAB(
@@ -502,12 +989,44 @@ export class InlineQueryResultMapper {
 		);
 	}
 
-	static inlineQueryResultVideoToTAB<T extends SelectedVideo>(
-		options: T,
-	): ConditionalVideo<T> {
-		const params = options as CombineVideo;
+	static inlineQueryResultVenueToTelegram(
+		options: TgAirBot.InlineQueryResultVenue,
+	): Telegram.InlineQueryResultVenue {
+		const entity: Telegram.InlineQueryResultVenue = {
+			address: options.address,
+			id: options.id,
+			latitude: options.latitude,
+			longitude: options.longitude,
+			title: options.title,
+			type: options.type,
+			input_message_content: options.inputMessageContent
+				? InputMessageContentMapper.toTelegram(
+						options.inputMessageContent,
+				  )
+				: undefined,
+			reply_markup: options.replyMarkup
+				? ReplyMarkupMapper.toTelegram(options.replyMarkup)
+				: undefined,
+			foursquare_id: options.foursquareId,
+			foursquare_type: options.foursquareType,
+			google_place_id: options.googlePlaceId,
+			thumbnail_url: options.thumbnailUrl,
+			google_place_type: options.googlePlaceType,
+			thumbnail_height: options.thumbnailHeight,
+			thumbnail_width: options.thumbnailWidth,
+		};
 
-		const entity: TgCombineVideo = {
+		return RemoveUndefinedKeysFromObject<Telegram.InlineQueryResultVenue>(
+			entity,
+		);
+	}
+
+	static inlineQueryResultVideoToTAB<T extends SelectedVideoTAB>(
+		options: T,
+	): ConditionalVideoTAB<T> {
+		const params = options as CombineVideoTAB;
+
+		const entity: TgCombineVideoTAB = {
 			id: params.id,
 			title: params.title,
 			type: params.type,
@@ -532,9 +1051,48 @@ export class InlineQueryResultMapper {
 			videoFileId: params.video_file_id,
 		};
 
-		return RemoveUndefinedKeysFromObject<TgCombineVideo>(
+		return RemoveUndefinedKeysFromObject<TgCombineVideoTAB>(
 			entity,
-		) as ConditionalVideo<T>;
+		) as ConditionalVideoTAB<T>;
+	}
+
+	static inlineQueryResultVideoToTelegram<T extends SelectedVideoTelegram>(
+		options: T,
+	): ConditionalVideoTelegram<T> {
+		const params = options as CombineVideoTelegram;
+
+		const entity: TgCombineVideoTelegram = {
+			id: params.id,
+			title: params.title,
+			type: params.type,
+			input_message_content: params.inputMessageContent
+				? InputMessageContentMapper.toTelegram(
+						params.inputMessageContent,
+				  )
+				: undefined,
+			reply_markup: params.replyMarkup
+				? ReplyMarkupMapper.toTelegram(params.replyMarkup)
+				: undefined,
+			mime_type: params.mimeType,
+			parse_mode: params.parseMode,
+			caption: params.caption,
+			caption_entities: params.captionEntities
+				? params.captionEntities.map(
+						MessageMapper.messageEntityToTelegram,
+				  )
+				: undefined,
+			description: params.description,
+			thumbnail_url: params.thumbnailUrl,
+			video_duration: params.videoDuration,
+			video_file_id: params.videoFileId,
+			video_height: params.videoHeight,
+			video_url: params.videoUrl,
+			video_width: params.videoWidth,
+		};
+
+		return RemoveUndefinedKeysFromObject<TgCombineVideoTelegram>(
+			entity,
+		) as ConditionalVideoTelegram<T>;
 	}
 
 	static inlineQueryResultStickerToTAB(
@@ -553,6 +1111,28 @@ export class InlineQueryResultMapper {
 		};
 
 		return RemoveUndefinedKeysFromObject<TgAirBot.InlineQueryResultCachedSticker>(
+			entity,
+		);
+	}
+
+	static inlineQueryResultStickerToTelegram(
+		options: TgAirBot.InlineQueryResultCachedSticker,
+	): Telegram.InlineQueryResultCachedSticker {
+		const entity: Telegram.InlineQueryResultCachedSticker = {
+			id: options.id,
+			type: options.type,
+			input_message_content: options.inputMessageContent
+				? InputMessageContentMapper.toTelegram(
+						options.inputMessageContent,
+				  )
+				: undefined,
+			reply_markup: options.replyMarkup
+				? ReplyMarkupMapper.toTelegram(options.replyMarkup)
+				: undefined,
+			sticker_file_id: options.stickerFileId,
+		};
+
+		return RemoveUndefinedKeysFromObject<Telegram.InlineQueryResultCachedSticker>(
 			entity,
 		);
 	}

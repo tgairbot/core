@@ -19,4 +19,20 @@ export class InlineQueryResultsButtonMapper {
 			entity,
 		);
 	}
+
+	static toTelegram(
+		options: TgAirBot.InlineQueryResultsButton,
+	): Telegram.InlineQueryResultsButton {
+		const entity: Telegram.InlineQueryResultsButton = {
+			text: options.text,
+			start_parameter: options.startParameter,
+			web_app: options.webApp
+				? ReplyMarkupMapper.webAppInfoToTelegram(options.webApp)
+				: undefined,
+		};
+
+		return RemoveUndefinedKeysFromObject<Telegram.InlineQueryResultsButton>(
+			entity,
+		);
+	}
 }

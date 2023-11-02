@@ -4,29 +4,33 @@ import { Client } from "../api/client";
 import { HandleFn, Server } from "../api/server";
 import { Handler } from "../handler";
 import { Response } from "../types/server";
-import { Update } from "../types/telegram/update";
+import { Update } from "../types/telegram";
 import { SetWebhook, WebhookOptions } from "../types/webhook";
 import { WrapRequest } from "../types/wrap-request";
 
 export class Webhook {
 	private client: Client;
 	private server: Server;
-	private options: SetWebhook;
+	private readonly params: SetWebhook;
 
 	constructor(
 		private readonly token: string,
-		private params: WebhookOptions,
+		private options: WebhookOptions,
 	) {
 		this.client = new Client("setWebhook", this.token);
-		this.options = this._parseOptions();
-		this.server = new Server("localhost", this.params.port || 443);
+		this.params = this._parseOptions();
+		this.server = new Server("localhost", this.options.port || 443);
+	}
+
+	get handler(): Handler {
+		return this.options.handler || new Handler();
 	}
 
 	async start() {
 		const { body } = await this.client.send<
 			WrapRequest<boolean>,
 			SetWebhook
-		>(this.options);
+		>(this.params);
 
 		if (body.ok && body.result) {
 			this.server.setHandle = this._handleResponse.bind(this) as HandleFn;
@@ -40,25 +44,25 @@ export class Webhook {
 	}
 
 	private async _handleResponse({ body }: Response<Update>): Promise<void> {
-		if (this.params.log)
+		if (this.options.log)
 			debug("Handle update: ", JSON.stringify(body, null, 2));
 
-		Handler.emit("update", body);
+		this.handler.emit("update", body);
 	}
 
 	private _parseOptions() {
 		const options: SetWebhook = {
-			url: this.params.domain,
-			ip_address: this.params.ipAddress,
+			url: this.options.domain,
+			ip_address: this.options.ipAddress,
 		};
 
 		if (
-			this.params.maxConnections &&
-			typeof this.params.maxConnections === "number"
+			this.options.maxConnections &&
+			typeof this.options.maxConnections === "number"
 		) {
-			if (this.params.maxConnections <= 0) {
+			if (this.options.maxConnections <= 0) {
 				options.max_connections = 0;
-			} else if (this.params.maxConnections >= 100) {
+			} else if (this.options.maxConnections >= 100) {
 				options.max_connections = 100;
 			} else {
 				options.max_connections = 40;
@@ -67,15 +71,19 @@ export class Webhook {
 			options.max_connections = 40;
 		}
 
-		if (typeof this.params.dropPendingUpdates === "boolean") {
-			options.drop_pending_updates = this.params.dropPendingUpdates;
+		if (typeof this.options.dropPendingUpdates === "boolean") {
+			options.drop_pending_updates = this.options.dropPendingUpdates;
 		}
 
 		if (
-			this.params.secretToken &&
-			typeof this.params.secretToken === "string"
+			this.options.secretToken &&
+			typeof this.options.secretToken === "string"
 		) {
-			options.secret_token = this.params.secretToken;
+			options.secret_token = this.options.secretToken;
+		}
+
+		if (!(this.options.handler instanceof Handler)) {
+			this.options.handler = new Handler();
 		}
 
 		return options;

@@ -19,7 +19,7 @@ import { Poll } from "./poll";
 import { Location } from "./location";
 import { Venue } from "./venue";
 import { Invoice, SuccessfulPayment } from "./payment";
-import { PassportData } from "./pasport";
+import { PassportData } from "./passport/passport";
 import { InlineKeyboardMarkup } from "./keyboard";
 import {
 	ForumTopicClosed,

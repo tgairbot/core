@@ -182,7 +182,7 @@ export class ReplyMarkupMapper {
 		return RemoveUndefinedKeysFromObject<TgAirBot.WebAppInfo>(entity);
 	}
 
-	static keyboadButtonToTelegram(
+	static keyboardButtonToTelegram(
 		button: TgAirBot.KeyboardButton,
 	): Telegram.KeyboardButton {
 		const entity: Telegram.KeyboardButton = {
@@ -284,7 +284,7 @@ export class ReplyMarkupMapper {
 			input_field_placeholder: markupTypes.inputFieldPlaceholder,
 			keyboard: markupTypes.keyboard
 				? markupTypes.keyboard.map(row =>
-						row.map(ReplyMarkupMapper.keyboadButtonToTelegram),
+						row.map(ReplyMarkupMapper.keyboardButtonToTelegram),
 				  )
 				: undefined,
 		};

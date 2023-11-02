@@ -1,4 +1,4 @@
-import { EncriptedPasportElementType } from "../telegram/pasport";
+import { EncryptedPassportElementType } from "../../telegram";
 
 export interface PassportData {
 	data: EncryptedPassportElement[];
@@ -6,7 +6,7 @@ export interface PassportData {
 }
 
 export interface EncryptedPassportElement {
-	type: EncriptedPasportElementType;
+	type: EncryptedPassportElementType;
 	data?: string;
 	phoneNumber?: string;
 	email?: string;

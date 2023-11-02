@@ -16,4 +16,17 @@ export class AnswerWebAppQueryMapper {
 			entity,
 		);
 	}
+
+	static toTelegram(
+		options: TgAirBot.AnswerWebAppQuery,
+	): Telegram.AnswerWebAppQuery {
+		const entity: Telegram.AnswerWebAppQuery = {
+			result: InlineQueryResultMapper.toTelegram(options.result),
+			web_app_query_id: options.webAppQueryId,
+		};
+
+		return RemoveUndefinedKeysFromObject<Telegram.AnswerWebAppQuery>(
+			entity,
+		);
+	}
 }

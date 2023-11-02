@@ -1,4 +1,5 @@
-import { UpdatedTypes } from "./telegram/update";
+import { UpdatedTypes } from "./telegram";
+import { Handler } from "../handler";
 
 export interface PollingOptions {
 	limit?: number;
@@ -6,4 +7,5 @@ export interface PollingOptions {
 	allowedUpdates?: Array<keyof UpdatedTypes>;
 	interval?: number;
 	log?: boolean;
+	handler?: Handler;
 }

@@ -14,4 +14,16 @@ export class SentWebAppMessageMapper {
 			entity,
 		);
 	}
+
+	static toTelegram(
+		options: TgAirBot.SentWebAppMessage,
+	): Telegram.SentWebAppMessage {
+		const entity: Telegram.SentWebAppMessage = {
+			inline_message_id: options.inlineMessageId,
+		};
+
+		return RemoveUndefinedKeysFromObject<Telegram.SentWebAppMessage>(
+			entity,
+		);
+	}
 }

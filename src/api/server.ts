@@ -64,7 +64,12 @@ export class Server {
 					if (headers["content-type"] === "application/json")
 						body = JSON.parse(body) as unknown as string;
 
-					resolve({ headers, body: body as Body, method, url });
+					resolve({
+						headers,
+						body: body as unknown as Body,
+						method,
+						url,
+					});
 				});
 			} catch (error) {
 				reject(error.message);

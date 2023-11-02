@@ -15,8 +15,8 @@
     "prepare": "husky install",
     "prepush": "yarn test",
     "prettier": "yarn prettier:check && yarn prettier:write",
-    "prettier:check": "prettier --check ./src/**/*.{ts,js,json,*rc}",
-    "prettier:write": "prettier --write ./src/**/*.{ts,js,json,*rc}",
+    "prettier:check": "prettier --config .prettierrc --check \"./src/**/*.{ts,js,json,*rc}\"",
+    "prettier:write": "prettier --config .prettierrc --write \"./src/**/*.{ts,js,json,*rc}\"",
     "start:dev": "yarn prettier && tsc && node dist/index.js"
   },
   "dependencies": {

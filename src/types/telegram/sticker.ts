@@ -3,6 +3,7 @@ import { File } from "./file";
 import { MaskPosition } from "./mask-position";
 
 export type StickerType = "regular" | "mask" | "custom_emoji";
+export type StickerFormat = "static" | "animated" | "video";
 
 export interface Sticker {
 	file_id: string;
@@ -20,4 +21,21 @@ export interface Sticker {
 	custom_emoji_id?: string;
 	needs_repainting?: true;
 	file_size?: number;
+}
+
+export interface InputSticker {
+	sticker: string;
+	emoji_list: string[];
+	mask_position?: MaskPosition;
+	keywords?: string[];
+}
+
+export interface StickerSet {
+	name: string;
+	title: string;
+	sticker_type: StickerType;
+	is_animated: boolean;
+	is_video: boolean;
+	stickers: Sticker[];
+	thumbnail?: PhotoSize;
 }

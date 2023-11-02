@@ -4,6 +4,7 @@ import { RemoveUndefinedKeysFromObject } from "../utils/remove-undefined-keys-fr
 import { AnimationMapper } from "./animation";
 import { MessageMapper } from "./message";
 import { PhotoMapper } from "./photo";
+import { UserMapper } from "./user";
 
 export class GameMapper {
 	static toTAB(game: Telegram.Game): TgAirBot.Game {
@@ -21,5 +22,17 @@ export class GameMapper {
 		};
 
 		return RemoveUndefinedKeysFromObject<TgAirBot.Game>(entity);
+	}
+
+	static gameHighScoreToTAB(
+		options: Telegram.GameHighScore,
+	): TgAirBot.GameHighScore {
+		const entity: TgAirBot.GameHighScore = {
+			user: UserMapper.toTAB(options.user),
+			position: options.position,
+			score: options.position,
+		};
+
+		return RemoveUndefinedKeysFromObject<TgAirBot.GameHighScore>(entity);
 	}
 }

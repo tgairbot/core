@@ -1,4 +1,5 @@
 import { UpdatedTypes } from "./telegram/update";
+import { Handler } from "../handler";
 
 export interface WebhookOptions {
 	domain: string;
@@ -9,6 +10,7 @@ export interface WebhookOptions {
 	allowedUpdates?: Array<keyof UpdatedTypes>;
 	dropPendingUpdates?: boolean;
 	secretToken?: string;
+	handler?: Handler;
 }
 
 export interface SetWebhook {
