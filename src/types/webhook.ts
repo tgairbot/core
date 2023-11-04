@@ -1,4 +1,4 @@
-import { UpdatedTypes } from "./telegram/update";
+import { UpdatedTypes } from "./telegram";
 import { Handler } from "../handler";
 
 export interface WebhookOptions {

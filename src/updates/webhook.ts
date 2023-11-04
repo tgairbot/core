@@ -2,7 +2,7 @@ import { debug } from "console";
 
 import { Client } from "../api/client";
 import { HandleFn, Server } from "../api/server";
-import { Handler } from "../handler";
+import { UpdateHandler } from "../handler";
 import { Response } from "../types/server";
 import { Update } from "../types/telegram";
 import { SetWebhook, WebhookOptions } from "../types/webhook";
@@ -20,10 +20,6 @@ export class Webhook {
 		this.client = new Client("setWebhook", this.token);
 		this.params = this._parseOptions();
 		this.server = new Server("localhost", this.options.port || 443);
-	}
-
-	get handler(): Handler {
-		return this.options.handler || new Handler();
 	}
 
 	async start() {
@@ -47,7 +43,7 @@ export class Webhook {
 		if (this.options.log)
 			debug("Handle update: ", JSON.stringify(body, null, 2));
 
-		this.handler.emit("update", body);
+		UpdateHandler.emit("update", body);
 	}
 
 	private _parseOptions() {
@@ -80,10 +76,6 @@ export class Webhook {
 			typeof this.options.secretToken === "string"
 		) {
 			options.secret_token = this.options.secretToken;
-		}
-
-		if (!(this.options.handler instanceof Handler)) {
-			this.options.handler = new Handler();
 		}
 
 		return options;

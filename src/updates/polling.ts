@@ -1,7 +1,7 @@
 import { debug } from "console";
 
 import { Client } from "../api/client";
-import { Handler } from "../handler";
+import { UpdateHandler } from "../handler";
 import { PollingOptions } from "../types/polling";
 import { AlovedUpdates, GetUpdates, Update } from "../types/telegram";
 import { WrapRequest } from "../types/wrap-request";
@@ -15,15 +15,10 @@ export class Polling {
 		private readonly token: string,
 		private options: PollingOptions = {
 			interval: 300,
-			handler: new Handler(),
 		},
 	) {
 		this._filterOptions();
 		this.client = new Client("getUpdates", this.token);
-	}
-
-	get handler(): Handler {
-		return this.options.handler || new Handler();
 	}
 
 	async start() {
@@ -68,7 +63,7 @@ export class Polling {
 		if (this.options.log)
 			debug("Handle update: ", JSON.stringify(update, null, 2));
 
-		this.handler.emit("update", update);
+		UpdateHandler.emit("update", update);
 	}
 
 	private _filterOptions() {
@@ -106,10 +101,6 @@ export class Polling {
 			this.options.allowedUpdates = this.options.allowedUpdates.filter(
 				updateType => AlovedUpdates.includes(updateType),
 			);
-		}
-
-		if (!(this.options.handler instanceof Handler)) {
-			this.options.handler = new Handler();
 		}
 	}
 }
