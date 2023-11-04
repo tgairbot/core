@@ -2,9 +2,24 @@
   "name": "@tgairbot/core",
   "version": "0.0.0-alpha",
   "description": "",
+  "keywords": [
+    "tgairbot",
+    "telegram",
+    "telegram bot api",
+    "bot",
+    "bot api",
+    "bot framework"
+  ],
+  "bugs": {
+    "url": "https://github.com/tgairbot/core.git/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tgairbot/core.git"
+  },
   "license": "ISC",
   "author": "",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
     "precommit": "lint-staged --no-stash && yarn lint",
     "commit": "cz",
@@ -37,5 +52,6 @@
     "husky": "^8.0.3",
     "lint-staged": "^14.0.1",
     "prettier": "^3.0.3"
-  }
+  },
+  "homehage": "https://github.com/tgairbot/core.git#readme"
 }

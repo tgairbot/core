@@ -26,7 +26,7 @@ export const filter = <C extends ConditionType, T = any, M = TgAirBot.Message>(
 	if (typeof condition === "string") {
 		return filterString(
 			condition,
-			message as TgAirBot.Message,
+			message as unknown as TgAirBot.Message,
 			callback as CallbackArgs<string>,
 		);
 	}
@@ -42,7 +42,7 @@ export const filter = <C extends ConditionType, T = any, M = TgAirBot.Message>(
 	if (condition instanceof RegExp) {
 		return filterRegexp(
 			condition,
-			message as TgAirBot.Message,
+			message as unknown as TgAirBot.Message,
 			callback as CallbackArgs<RegExp>,
 		);
 	}
