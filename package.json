@@ -1,6 +1,6 @@
 {
   "name": "@tgairbot/core",
-  "version": "0.0.3-alpha",
+  "version": "0.0.4-alpha",
   "description": "",
   "keywords": [
     "tgairbot",
@@ -53,5 +53,5 @@
     "lint-staged": "^14.0.1",
     "prettier": "^3.0.3"
   },
-  "homehage": "https://github.com/tgairbot/core.git#readme"
+  "homehage": "https://github.com/tgairbot/core/wiki"
 }
