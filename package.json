@@ -10,6 +10,7 @@
     "bot api",
     "bot framework"
   ],
+  "homepage": "https://github.com/tgairbot/core/wiki",
   "bugs": {
     "url": "https://github.com/tgairbot/core.git/issues"
   },
@@ -52,6 +53,5 @@
     "husky": "^8.0.3",
     "lint-staged": "^14.0.1",
     "prettier": "^3.0.3"
-  },
-  "homehage": "https://github.com/tgairbot/core/wiki"
+  }
 }
