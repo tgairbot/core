@@ -9,3 +9,5 @@ node_modules
 .prettierignore
 .prettierrc
 .swcrc
+tsconfig.json
+yarn-error.log

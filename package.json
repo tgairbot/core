@@ -1,6 +1,6 @@
 {
   "name": "@tgairbot/core",
-  "version": "0.0.4-alpha",
+  "version": "0.0.5-alpha",
   "description": "",
   "keywords": [
     "tgairbot",
@@ -21,6 +21,7 @@
   "license": "MIT",
   "author": "morgota199@gmail.com",
   "main": "dist/index.js",
+  "types": "./types/index.d.ts",
   "scripts": {
     "precommit": "lint-staged --no-stash && yarn lint",
     "commit": "cz",
