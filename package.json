@@ -1,6 +1,6 @@
 {
   "name": "@tgairbot/core",
-  "version": "0.0.5-alpha",
+  "version": "0.1.0-alpha",
   "description": "",
   "keywords": [
     "tgairbot",
@@ -23,6 +23,7 @@
   "main": "dist/index.js",
   "types": "./types/index.d.ts",
   "scripts": {
+    "build": "rm -rf dist && tsc",
     "precommit": "lint-staged --no-stash && yarn lint",
     "commit": "cz",
     "eslint:check": "eslint \"{src,apps,libs,test}/**/*.ts\"",

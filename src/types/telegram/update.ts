@@ -26,7 +26,7 @@ export interface Update extends Partial<UpdatedTypes> {
 	update_id: number;
 }
 
-export const AlovedUpdates: Array<keyof UpdatedTypes> = [
+export const AvailableUpdates: Array<keyof UpdatedTypes> = [
 	"message",
 	"edited_message",
 	"channel_post",

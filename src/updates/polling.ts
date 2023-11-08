@@ -3,7 +3,7 @@ import { debug } from "console";
 import { Client } from "../api/client";
 import { UpdateHandler } from "../handler";
 import { PollingOptions } from "../types/polling";
-import { AlovedUpdates, GetUpdates, Update } from "../types/telegram";
+import { AvailableUpdates, GetUpdates, Update } from "../types/telegram";
 import { WrapRequest } from "../types/wrap-request";
 
 export class Polling {
@@ -99,7 +99,7 @@ export class Polling {
 			Array.isArray(this.options.allowedUpdates)
 		) {
 			this.options.allowedUpdates = this.options.allowedUpdates.filter(
-				updateType => AlovedUpdates.includes(updateType),
+				updateType => AvailableUpdates.includes(updateType),
 			);
 		}
 	}

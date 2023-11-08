@@ -11,8 +11,10 @@ import { ShippingQueryMapper } from "./payments/shipping-query";
 import { PollMapper } from "./poll";
 
 export class UpdateMapper {
-	static toTAB(options: Telegram.Update): TgAirBot.Update {
-		const entity: TgAirBot.Update = {
+	static toTAB<T extends keyof TgAirBot.UpdatedTypes = "message">(
+		options: Telegram.Update,
+	): TgAirBot.Update<T> {
+		const entity: TgAirBot.Update<any> = {
 			updateId: options.update_id,
 			callbackQuery: options.callback_query
 				? CallbackQueryMapper.toTAB(options.callback_query)
@@ -56,6 +58,6 @@ export class UpdateMapper {
 				: undefined,
 		};
 
-		return RemoveUndefinedKeysFromObject<TgAirBot.Update>(entity);
+		return RemoveUndefinedKeysFromObject<TgAirBot.Update<T>>(entity as any);
 	}
 }

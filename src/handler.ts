@@ -1,17 +1,10 @@
 import EventEmitter from "events";
-
-import { CallbackQueryMapper } from "./mappers/callback-query";
-import { ChatMapper } from "./mappers/chat";
-import { ChosenInlineResultMapper } from "./mappers/inline-query/chosen-inline-result";
-import { InlineQueryMapper } from "./mappers/inline-query/inline-query";
-import { MessageMapper } from "./mappers/message";
-import { PreCheckoutQueryMapper } from "./mappers/payments/pre-checkout-query";
-import { ShippingQueryMapper } from "./mappers/payments/shipping-query";
-import { PollMapper } from "./mappers/poll";
 import { UpdateMapper } from "./mappers/update";
 import * as Telegram from "./types/telegram";
 import * as TgAirBot from "./types/tgairbot";
 import { HandlerCallback } from "./types/handler-callback";
+import { Wrapper } from "./wrappers/wrapper";
+import { Middleware } from "./wrappers/middleware";
 
 export class Handler extends EventEmitter {
 	constructor() {
@@ -20,102 +13,126 @@ export class Handler extends EventEmitter {
 		this.onUpdates(() => {});
 	}
 
-	onUpdates(callback: HandlerCallback<TgAirBot.Update>) {
-		this.on("update", ({ update_id, ...updates }: Telegram.Update) => {
-			Object.entries(updates).forEach(([key, update]) =>
-				this.emit(key, update),
-			);
+	onUpdates<T extends keyof TgAirBot.UpdatedTypes>(
+		callback: HandlerCallback<T>,
+	) {
+		this.on("update", (update: Telegram.Update) => {
+			const { updateId, ...updates } = UpdateMapper.toTAB(update);
 
-			callback(UpdateMapper.toTAB({ update_id, ...updates }));
+			Object.keys(updates).forEach(key => {
+				const updateType = key as keyof TgAirBot.UpdatedTypes;
+
+				this.emit(updateType, { updateId, ...updates });
+
+				this._wrap(updateType, { updateId, ...updates }, callback);
+			});
 		});
 	}
 
-	onMessage(callback: HandlerCallback<TgAirBot.Message>) {
-		this.on("message", (message: Telegram.Message) =>
-			callback(MessageMapper.toTAB(message)),
+	onMessage(callback: HandlerCallback<"message"> | Middleware<"message">) {
+		this.on("message", (update: TgAirBot.Update<"message">) =>
+			this._wrap("message", update, callback),
 		);
 	}
 
-	onEditedMessage(callback: HandlerCallback<TgAirBot.Message>) {
-		this.on("edited_message", (message: Telegram.Message) =>
-			callback(MessageMapper.toTAB(message)),
+	onEditedMessage(callback: HandlerCallback<"editedMessage">) {
+		this.on("editedMessage", (update: TgAirBot.Update<"editedMessage">) =>
+			this._wrap("editedMessage", update, callback),
 		);
 	}
 
-	onChannelPost(callback: HandlerCallback<TgAirBot.Message>) {
-		this.on("channel_post", (message: Telegram.Message) =>
-			callback(MessageMapper.toTAB(message)),
+	onChannelPost(callback: HandlerCallback<"channelPost">) {
+		this.on("channelPost", (update: TgAirBot.Update<"channelPost">) =>
+			this._wrap("channelPost", update, callback),
 		);
 	}
 
-	editedChannelPost(callback: HandlerCallback<TgAirBot.Message>) {
-		this.on("edited_channel_post", (message: Telegram.Message) =>
-			callback(MessageMapper.toTAB(message)),
-		);
-	}
-
-	onPoll(callback: HandlerCallback<TgAirBot.Poll>) {
-		this.on("poll", (message: Telegram.Poll) =>
-			callback(PollMapper.toTAB(message)),
-		);
-	}
-
-	onPollAnswer(callback: HandlerCallback<TgAirBot.PollAnswer>) {
-		this.on("poll_answer", (message: Telegram.PollAnswer) =>
-			callback(PollMapper.pollAnswerToTAB(message)),
-		);
-	}
-
-	onPreCheckoutQuery(callback: HandlerCallback<TgAirBot.PreCheckoutQuery>) {
-		this.on("pre_checkout_query", (message: Telegram.PreCheckoutQuery) =>
-			callback(PreCheckoutQueryMapper.toTAB(message)),
-		);
-	}
-
-	onShippingQuery(callback: HandlerCallback<TgAirBot.ShippingQuery>) {
-		this.on("pre_checkout_query", (message: Telegram.ShippingQuery) =>
-			callback(ShippingQueryMapper.toTAB(message)),
-		);
-	}
-
-	onCallbackQuery(callback: HandlerCallback<TgAirBot.CallbackQuery>) {
-		this.on("callback_query", (message: Telegram.CallbackQuery) =>
-			callback(CallbackQueryMapper.toTAB(message)),
-		);
-	}
-
-	onMyChatMember(callback: HandlerCallback<TgAirBot.ChatMemberUpdated>) {
-		this.on("my_chat_member", (message: Telegram.ChatMemberUpdated) =>
-			callback(ChatMapper.chatMemberUpdatedToTab(message)),
-		);
-	}
-
-	onChatMember(callback: HandlerCallback<TgAirBot.ChatMemberUpdated>) {
-		this.on("chat_member", (message: Telegram.ChatMemberUpdated) =>
-			callback(ChatMapper.chatMemberUpdatedToTab(message)),
-		);
-	}
-
-	onChatJoinRequest(callback: HandlerCallback<TgAirBot.ChatJoinRequest>) {
-		this.on("chat_join_request", (message: Telegram.ChatJoinRequest) =>
-			callback(ChatMapper.chatJoinRequestToTAB(message)),
-		);
-	}
-
-	onInlineQuery(callback: HandlerCallback<TgAirBot.InlineQuery>) {
-		this.on("inline_query", (message: Telegram.InlineQuery) =>
-			callback(InlineQueryMapper.toTAB(message)),
-		);
-	}
-
-	onChosenInlineResult(
-		callback: HandlerCallback<TgAirBot.ChosenInlineResult>,
-	) {
+	editedChannelPost(callback: HandlerCallback<"editedChannelPost">) {
 		this.on(
-			"chosen_inline_result",
-			(message: Telegram.ChosenInlineResult) =>
-				callback(ChosenInlineResultMapper.toTAB(message)),
+			"editedChannelPost",
+			(update: TgAirBot.Update<"editedChannelPost">) =>
+				this._wrap("editedChannelPost", update, callback),
 		);
+	}
+
+	onPoll(callback: HandlerCallback<"poll">) {
+		this.on("poll", (update: TgAirBot.Update<"poll">) =>
+			this._wrap("poll", update, callback),
+		);
+	}
+
+	onPollAnswer(callback: HandlerCallback<"pollAnswer">) {
+		this.on("pollAnswer", (update: TgAirBot.Update<"pollAnswer">) =>
+			this._wrap("pollAnswer", update, callback),
+		);
+	}
+
+	onPreCheckoutQuery(callback: HandlerCallback<"preCheckoutQuery">) {
+		this.on(
+			"preCheckoutQuery",
+			(update: TgAirBot.Update<"preCheckoutQuery">) =>
+				this._wrap("preCheckoutQuery", update, callback),
+		);
+	}
+
+	onShippingQuery(callback: HandlerCallback<"shippingQuery">) {
+		this.on("shippingQuery", (update: TgAirBot.Update<"shippingQuery">) =>
+			this._wrap("shippingQuery", update, callback),
+		);
+	}
+
+	onCallbackQuery(callback: HandlerCallback<"callbackQuery">) {
+		this.on("callbackQuery", (update: TgAirBot.Update<"callbackQuery">) =>
+			this._wrap("callbackQuery", update, callback),
+		);
+	}
+
+	onMyChatMember(callback: HandlerCallback<"myChatMember">) {
+		this.on("myChatMember", (update: TgAirBot.Update<"myChatMember">) =>
+			this._wrap("myChatMember", update, callback),
+		);
+	}
+
+	onChatMember(callback: HandlerCallback<"chatMember">) {
+		this.on("chatMember", (update: TgAirBot.Update<"chatMember">) =>
+			this._wrap("chatMember", update, callback),
+		);
+	}
+
+	onChatJoinRequest(callback: HandlerCallback<"chatJoinRequest">) {
+		this.on(
+			"chatJoinRequest",
+			(update: TgAirBot.Update<"chatJoinRequest">) =>
+				this._wrap("chatJoinRequest", update, callback),
+		);
+	}
+
+	onInlineQuery(callback: HandlerCallback<"inlineQuery">) {
+		this.on("inlineQuery", (update: TgAirBot.Update<"inlineQuery">) =>
+			this._wrap("inlineQuery", update, callback),
+		);
+	}
+
+	onChosenInlineResult(callback: HandlerCallback<"chosenInlineResult">) {
+		this.on(
+			"chosenInlineResult",
+			(update: TgAirBot.Update<"chosenInlineResult">) =>
+				this._wrap("chosenInlineResult", update, callback),
+		);
+	}
+
+	private _wrap<T extends keyof TgAirBot.UpdatedTypes>(
+		type: T,
+		update: TgAirBot.Update<T>,
+		callback: HandlerCallback<T> | Middleware<T>,
+	) {
+		const wrapper = new Wrapper<T>(type, update);
+
+		if (callback instanceof Middleware) {
+			callback.run(wrapper);
+		} else {
+			callback({ wrapper, params: wrapper.data });
+		}
 	}
 }
 

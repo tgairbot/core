@@ -7,9 +7,70 @@ import { PreCheckoutQuery } from "./payments/pre-checkout-query";
 import { ShippingQuery } from "./payments/shipping-query";
 import { Poll, PollAnswer } from "./poll";
 
-export interface Update extends Partial<UpdatedTypes> {
-	updateId: number;
-}
+export type ConditionKey<T extends keyof UpdatedTypes> = T extends "message"
+	? { message: Message }
+	: T extends "editedMessage"
+	? { editedMessage: Message }
+	: T extends "channelPost"
+	? { channelPost: Message }
+	: T extends "editedChannelPost"
+	? { editedChannelPost: Message }
+	: T extends "inlineQuery"
+	? { inlineQuery: InlineQuery }
+	: T extends "chosenInlineResult"
+	? { chosenInlineResult: ChosenInlineResult }
+	: T extends "callbackQuery"
+	? { callbackQuery: CallbackQuery }
+	: T extends "shippingQuery"
+	? { shippingQuery: ShippingQuery }
+	: T extends "preCheckoutQuery"
+	? { preCheckoutQuery: PreCheckoutQuery }
+	: T extends "poll"
+	? { poll: Poll }
+	: T extends "pollAnswer"
+	? { pollAnswer: PollAnswer }
+	: T extends "myChatMember"
+	? { myChatMember: ChatMemberUpdated }
+	: T extends "chatMember"
+	? { chatMember: ChatMemberUpdated }
+	: T extends "chatJoinRequest"
+	? { chatJoinRequest: ChatJoinRequest }
+	: unknown;
+
+export type ConditionData<T extends keyof UpdatedTypes> = T extends "message"
+	? Message
+	: T extends "editedMessage"
+	? Message
+	: T extends "channelPost"
+	? Message
+	: T extends "editedChannelPost"
+	? Message
+	: T extends "inlineQuery"
+	? InlineQuery
+	: T extends "chosenInlineResult"
+	? ChosenInlineResult
+	: T extends "callbackQuery"
+	? CallbackQuery
+	: T extends "shippingQuery"
+	? ShippingQuery
+	: T extends "preCheckoutQuery"
+	? PreCheckoutQuery
+	: T extends "poll"
+	? Poll
+	: T extends "pollAnswer"
+	? PollAnswer
+	: T extends "myChatMember"
+	? ChatMemberUpdated
+	: T extends "chatMember"
+	? ChatMemberUpdated
+	: T extends "chatJoinRequest"
+	? ChatJoinRequest
+	: unknown;
+
+export type Update<T extends keyof UpdatedTypes> = Partial<UpdatedTypes> &
+	ConditionKey<T> & {
+		updateId: number;
+	};
 
 export interface UpdatedTypes {
 	message: Message;

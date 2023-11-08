@@ -13,6 +13,8 @@ npm install @tgairbot/core
 
 Простой пример использования библиотеки:
 ```typescript
+import { filter, Polling, Methods, UpdateHandler } from "@tgairbot/core";
+
 const TOKEN = "YOUR_TOKEN";
 
 const polling = new Polling(TOKEN, { log: true });
@@ -20,14 +22,18 @@ const methods = new Methods(TOKEN);
 
 polling.start().then();
 
-const onMessageCallback = async (data: TgAirBot.Message) => {
-    filter(/\/start/, data, async command => {
-        const message = await methods.sendMessage({
-            replyToMessageId: data.messageId,
-            chatId: data.chat.id,
-            text: "One handler",
-        });
-    });
+const onMessageCallback: HandlerCallback<"message"> = async ({ params, wrapper }) => {
+    filter(
+        async () => params.text === "/start",
+        params,
+        async (res) => {
+            await methods.sendMessage({
+                replyToMessageId: params.messageId,
+                chatId: params.chat.id,
+                text: "Hello world!!!",
+            });
+        },
+    );
 };
 
 UpdateHandler.onMessage(onMessageCallback);
