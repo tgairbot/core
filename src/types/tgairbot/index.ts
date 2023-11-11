@@ -141,3 +141,4 @@ export * from "./methods/set-passport-data-errors";
 export * from "./methods/send-game";
 export * from "./methods/set-game-score";
 export * from "./methods/get-game-high-scores";
+export * from "./story";

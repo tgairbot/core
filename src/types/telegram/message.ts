@@ -35,6 +35,7 @@ import {
 	GeneralForumTopicUnhidden,
 } from "./forum";
 import { Animation } from "./animation";
+import { Story } from "./story";
 
 export enum ParseMode {
 	Markdown = "Markdown",
@@ -52,7 +53,7 @@ export interface Message {
 	forward_from?: User;
 	forward_from_chat?: Chat;
 	forward_from_message_id?: number;
-	forward_sigrature?: string;
+	forward_signature?: string;
 	forward_sender_name?: string;
 	forward_date?: number;
 	is_topic_message?: true;
@@ -70,6 +71,7 @@ export interface Message {
 	document?: Document;
 	photo?: PhotoSize[];
 	sticker?: Sticker;
+	story?: Story;
 	video?: Video;
 	video_note?: VideoNote;
 	voice?: Voice;

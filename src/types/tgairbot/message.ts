@@ -31,6 +31,7 @@ import {
 } from "./forum";
 import { MessageEntityType } from "../telegram";
 import { Animation } from "./animation";
+import { Story } from "./story";
 
 export interface Message {
 	messageId: number;
@@ -60,6 +61,7 @@ export interface Message {
 	document?: Document;
 	photo?: PhotoSize[];
 	sticker?: Sticker;
+	story?: Story;
 	video?: Video;
 	videoNote?: VideoNote;
 	voice?: Voice;

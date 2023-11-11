@@ -3,6 +3,7 @@ import * as TgAirBot from "../types/tgairbot";
 import { RemoveUndefinedKeysFromObject } from "../utils/remove-undefined-keys-from-object";
 import { MessageMapper } from "./message";
 import { UserMapper } from "./user";
+import { ChatMapper } from "./chat";
 
 export class PollMapper {
 	static toTAB(poll: Telegram.Poll): TgAirBot.Poll {
@@ -47,6 +48,9 @@ export class PollMapper {
 			optionsIds: pollAnswer.options_ids,
 			pollId: pollAnswer.poll_id,
 			user: UserMapper.toTAB(pollAnswer.user),
+			voterChat: pollAnswer.voter_chat
+				? ChatMapper.toTAB(pollAnswer.voter_chat)
+				: undefined,
 		};
 
 		return RemoveUndefinedKeysFromObject<TgAirBot.PollAnswer>(entity);

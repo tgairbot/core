@@ -32,6 +32,7 @@ export interface Chat {
 	canSetStickerSet?: true;
 	linkedChatId?: number;
 	location?: ChatLocation;
+	emojiStatusExpirationDate?: number;
 }
 
 export interface ChatPermissions {
@@ -83,18 +84,21 @@ export interface VideoChatParticipantsInvited {
 }
 
 export interface ChatAdministratorRights {
-	isAnonymous: boolean;
-	canManageChat: boolean;
-	canDeleteMessages: boolean;
-	canManageVideoChats: boolean;
-	canRestrictMembers: boolean;
-	canPromoteMembers: boolean;
-	canChangeInfo: boolean;
-	canInviteUsers: boolean;
-	canPostMessages?: boolean;
-	canEditMessages?: boolean;
-	canPinMessages?: boolean;
-	canManageTopics?: boolean;
+	isAnonymous: boolean; //	True, if the user's presence in the chat is hidden
+	canManageChat: boolean; //	True, if the administrator can access the chat event log, boost list in channels, see channel members, report spam messages, see anonymous administrators in supergroups and ignore slow mode. Implied by any other administrator privilege
+	canDeleteMessages: boolean; //	True, if the administrator can delete messages of other users
+	canManageVideoChats: boolean; //	True, if the administrator can manage video chats
+	canRestrictMembers: boolean; //	True, if the administrator can restrict, ban or unban chat members, or access supergroup statistics
+	canPromoteMembers: boolean; //	True, if the administrator can add new administrators with a subset of their own privileges or demote administrators that they have promoted, directly or indirectly (promoted by administrators that were appointed by the user)
+	canChangeInfo: boolean; //	True, if the user is allowed to change the chat title, photo and other settings
+	canInviteUsers: boolean; //	True, if the user is allowed to invite new users to the chat
+	canPostMessages?: boolean; //	Optional. True, if the administrator can post messages in the channel, or access channel statistics; channels only
+	canEditMessages?: boolean; //	Optional. True, if the administrator can edit messages of other users and can pin messages; channels only
+	canPinMessages?: boolean; //	Optional. True, if the user is allowed to pin messages; groups and supergroups only
+	canPostStories?: boolean; //	Optional. True, if the administrator can post stories in the channel; channels only
+	canEditStories?: boolean; //	Optional. True, if the administrator can edit stories posted by other users; channels only
+	canDeleteStories?: boolean; //	Optional. True, if the administrator can delete stories posted by other users; channels only
+	canManageTopics?: boolean; //	Optional. True, if the user is allowed to create, rename, close, and reopen forum topics; supergroups only
 }
 
 export interface ChatInviteLink {

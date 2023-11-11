@@ -45,10 +45,54 @@ export class ChatMapper {
 			permissions: chat.permissions
 				? ChatMapper.permissionsToTAB(chat.permissions)
 				: undefined,
+			emojiStatusExpirationDate: chat.emoji_status_expiration_date,
 		};
 
 		return RemoveUndefinedKeysFromObject<TgAirBot.Chat>(entity);
 	}
+
+	// static toTelegram(options: TgAirBot.Chat): Telegram.Chat {
+	// 	const entity: Telegram.Chat = {
+	// 		id: options.id,
+	// 		type: options.type,
+	// 		bio: options.bio,
+	// 		photo: options.photo
+	// 			? ChatMapper.chatPhotoToTelegram(options.photo)
+	// 			: undefined,
+	// 		active_usernames: options.activeUsernames,
+	// 		can_set_sticker_set: options.canSetStickerSet,
+	// 		description: options.description,
+	// 		emoji_status_custom_emoji_id: options.emojiStatusCustomEmojiId,
+	// 		first_name: options.firstName,
+	// 		has_aggressive_anti_spam_enabled:
+	// 			options.hasAggressiveAntiSpamEnabled,
+	// 		has_hidden_members: options.hasHiddenMembers,
+	// 		has_private_forwards: options.hasPrivateForwards,
+	// 		has_protected_content: options.hasProtectedContent,
+	// 		invite_link: options.inviteLink,
+	// 		has_restricted_voice_and_video_messages:
+	// 			options.hasRestrictedVoiceAndVideoMessages,
+	// 		is_forum: options.isForum,
+	// 		join_by_request: options.joinByRequest,
+	// 		linked_chat_id: options.linkedChatId,
+	// 		join_to_send_messages: options.joinToSendMessages,
+	// 		last_name: options.lastName,
+	// 		message_auto_delete_time: options.messageAutoDeleteTime,
+	// 		title: options.title,
+	// 		username: options.username,
+	// 		slow_mode_delay: options.slowModeDelay,
+	// 		sticker_set_name: options.stickerSetName,
+	// 		permissions: options.permissions
+	// 			? ChatMapper.permissionsToTelegram(options.permissions)
+	// 			: undefined,
+	// 		location: options.location
+	// 			? ChatMapper.chatLocationToTelegram(options.location)
+	// 			: undefined,
+	// 		pinned_message: options.pinnedMessage
+	// 			? MessageMapper.toTelegram(options.pinnedMessage)
+	// 			: undefined,
+	// 	};
+	// }
 
 	static chatPhotoToTAB(chatPhoto: Telegram.ChatPhoto): TgAirBot.ChatPhoto {
 		const entity: TgAirBot.ChatPhoto = {
@@ -61,6 +105,19 @@ export class ChatMapper {
 		return RemoveUndefinedKeysFromObject<TgAirBot.ChatPhoto>(entity);
 	}
 
+	static chatPhotoToTelegram(
+		chatPhoto: TgAirBot.ChatPhoto,
+	): Telegram.ChatPhoto {
+		const entity: Telegram.ChatPhoto = {
+			big_file_id: chatPhoto.bigFileId,
+			big_file_unique_id: chatPhoto.bigFileUniqueId,
+			small_file_id: chatPhoto.smallFileId,
+			small_file_unique_id: chatPhoto.smallFileUniqueId,
+		};
+
+		return RemoveUndefinedKeysFromObject<Telegram.ChatPhoto>(entity);
+	}
+
 	static chatLocationToTab(
 		chatLocation: Telegram.ChatLocation,
 	): TgAirBot.ChatLocation {
@@ -70,6 +127,17 @@ export class ChatMapper {
 		};
 
 		return RemoveUndefinedKeysFromObject<TgAirBot.ChatLocation>(entity);
+	}
+
+	static chatLocationToTelegram(
+		chatLocation: TgAirBot.ChatLocation,
+	): Telegram.ChatLocation {
+		const entity: Telegram.ChatLocation = {
+			address: chatLocation.address,
+			location: LocationMapper.toTelegram(chatLocation.location),
+		};
+
+		return RemoveUndefinedKeysFromObject<Telegram.ChatLocation>(entity);
 	}
 
 	static permissionsToTAB(
@@ -187,6 +255,9 @@ export class ChatMapper {
 			can_delete_messages: rights.canDeleteMessages,
 			can_promote_members: rights.canPromoteMembers,
 			can_manage_video_chats: rights.canManageVideoChats,
+			can_edit_stories: rights.canEditStories,
+			can_post_stories: rights.canPostStories,
+			can_delete_stories: rights.canDeleteStories,
 		};
 
 		return RemoveUndefinedKeysFromObject<Telegram.ChatAdministratorRights>(
@@ -210,6 +281,9 @@ export class ChatMapper {
 			canPromoteMembers: rights.can_promote_members,
 			canRestrictMembers: rights.can_restrict_members,
 			isAnonymous: rights.is_anonymous,
+			canDeleteStories: rights.can_delete_stories,
+			canEditStories: rights.can_edit_stories,
+			canPostStories: rights.can_post_stories,
 		};
 
 		return RemoveUndefinedKeysFromObject<TgAirBot.ChatAdministratorRights>(

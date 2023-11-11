@@ -21,6 +21,9 @@ export class PromoteChatMemberMapper {
 			can_promote_members: options.canPromoteMembers,
 			can_manage_video_chats: options.canManageVideoChats,
 			is_anonymous: options.isAnonymous,
+			can_delete_stories: options.canDeleteStories,
+			can_edit_stories: options.canEditStories,
+			can_post_stories: options.canPostStories,
 		};
 
 		return RemoveUndefinedKeysFromObject<Telegram.PromoteChatMember>(

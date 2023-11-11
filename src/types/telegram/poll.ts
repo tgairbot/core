@@ -1,5 +1,6 @@
 import { MessageEntity } from "./message";
 import { User } from "./user";
+import { Chat } from "./chat";
 
 export type PollType = "regular" | "quiz";
 
@@ -26,6 +27,7 @@ export interface PollOption {
 
 export interface PollAnswer {
 	poll_id: string;
+	voter_chat?: Chat;
 	user: User;
 	options_ids: number[];
 }

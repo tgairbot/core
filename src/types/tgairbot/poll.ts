@@ -1,6 +1,7 @@
 import { PollType } from "../telegram/poll";
 import { MessageEntity } from "./message";
 import { User } from "./user";
+import { Chat } from "./chat";
 
 export interface Poll {
 	id: string;
@@ -25,6 +26,7 @@ export interface PollOption {
 
 export interface PollAnswer {
 	pollId: string;
+	voterChat?: Chat;
 	user: User;
 	optionsIds: number[];
 }

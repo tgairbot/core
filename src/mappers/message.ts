@@ -20,6 +20,7 @@ import { UserMapper } from "./user";
 import { VenueMapper } from "./venue";
 import { VideoMapper } from "./video";
 import { VoiceMapper } from "./voice";
+import { StoryMapper } from "./story";
 
 export class MessageMapper {
 	static toTAB(message: Telegram.Message): TgAirBot.Message {
@@ -75,7 +76,7 @@ export class MessageMapper {
 			messageThreadId: message.message_thread_id,
 			migrateToChatId: message.migrate_to_chat_id,
 			connectedWebsite: message.connected_website,
-			forwardSignature: message.forward_sigrature,
+			forwardSignature: message.forward_signature,
 			groupChatCreated: message.group_chat_created,
 			forwardSenderName: message.forward_sender_name,
 			migrateFromChatId: message.migrate_to_chat_id,
@@ -191,10 +192,17 @@ export class MessageMapper {
 			replyMarkup: message.reply_markup
 				? ReplyMarkupMapper.toTAB(message.reply_markup)
 				: undefined,
+			story: message.story ? StoryMapper.toTAB(message.story) : undefined,
 		};
 
 		return RemoveUndefinedKeysFromObject<TgAirBot.Message>(entity);
 	}
+
+	// static toTelegram(options: TgAirBot.Message): Telegram.Message {
+	// 	const entity: Telegram.Message = {};
+	//
+	// 	return RemoveUndefinedKeysFromObject<Telegram.Message>(entity);
+	// }
 
 	static messageEntityToTAB(
 		messageEntity: Telegram.MessageEntity,
