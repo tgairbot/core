@@ -16,3 +16,5 @@ export { UpdateHandler } from "./handler";
 export * from "./bot";
 
 export { useMiddleware } from "./hooks/use-middleware";
+
+export * from "./fsm/fsm";

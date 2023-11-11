@@ -5,6 +5,7 @@ import * as TgAirBot from "./types/tgairbot";
 import { HandlerCallback } from "./types/handler-callback";
 import { Wrapper } from "./wrappers/wrapper";
 import { Middleware } from "./wrappers/middleware";
+import { GlobalFSM } from "./fsm/fsm";
 
 export class Handler extends EventEmitter {
 	constructor() {
@@ -14,7 +15,7 @@ export class Handler extends EventEmitter {
 	}
 
 	onUpdates<T extends keyof TgAirBot.UpdatedTypes>(
-		callback: HandlerCallback<T>,
+		callback: HandlerCallback<T> | Middleware<T>,
 	) {
 		this.on("update", (update: Telegram.Update) => {
 			const { updateId, ...updates } = UpdateMapper.toTAB(update);
@@ -35,19 +36,29 @@ export class Handler extends EventEmitter {
 		);
 	}
 
-	onEditedMessage(callback: HandlerCallback<"editedMessage">) {
+	onEditedMessage(
+		callback:
+			| HandlerCallback<"editedMessage">
+			| Middleware<"editedMessage">,
+	) {
 		this.on("editedMessage", (update: TgAirBot.Update<"editedMessage">) =>
 			this._wrap("editedMessage", update, callback),
 		);
 	}
 
-	onChannelPost(callback: HandlerCallback<"channelPost">) {
+	onChannelPost(
+		callback: HandlerCallback<"channelPost"> | Middleware<"channelPost">,
+	) {
 		this.on("channelPost", (update: TgAirBot.Update<"channelPost">) =>
 			this._wrap("channelPost", update, callback),
 		);
 	}
 
-	editedChannelPost(callback: HandlerCallback<"editedChannelPost">) {
+	editedChannelPost(
+		callback:
+			| HandlerCallback<"editedChannelPost">
+			| Middleware<"editedChannelPost">,
+	) {
 		this.on(
 			"editedChannelPost",
 			(update: TgAirBot.Update<"editedChannelPost">) =>
@@ -55,19 +66,25 @@ export class Handler extends EventEmitter {
 		);
 	}
 
-	onPoll(callback: HandlerCallback<"poll">) {
+	onPoll(callback: HandlerCallback<"poll"> | Middleware<"poll">) {
 		this.on("poll", (update: TgAirBot.Update<"poll">) =>
 			this._wrap("poll", update, callback),
 		);
 	}
 
-	onPollAnswer(callback: HandlerCallback<"pollAnswer">) {
+	onPollAnswer(
+		callback: HandlerCallback<"pollAnswer"> | Middleware<"pollAnswer">,
+	) {
 		this.on("pollAnswer", (update: TgAirBot.Update<"pollAnswer">) =>
 			this._wrap("pollAnswer", update, callback),
 		);
 	}
 
-	onPreCheckoutQuery(callback: HandlerCallback<"preCheckoutQuery">) {
+	onPreCheckoutQuery(
+		callback:
+			| HandlerCallback<"preCheckoutQuery">
+			| Middleware<"preCheckoutQuery">,
+	) {
 		this.on(
 			"preCheckoutQuery",
 			(update: TgAirBot.Update<"preCheckoutQuery">) =>
@@ -75,31 +92,47 @@ export class Handler extends EventEmitter {
 		);
 	}
 
-	onShippingQuery(callback: HandlerCallback<"shippingQuery">) {
+	onShippingQuery(
+		callback:
+			| HandlerCallback<"shippingQuery">
+			| Middleware<"shippingQuery">,
+	) {
 		this.on("shippingQuery", (update: TgAirBot.Update<"shippingQuery">) =>
 			this._wrap("shippingQuery", update, callback),
 		);
 	}
 
-	onCallbackQuery(callback: HandlerCallback<"callbackQuery">) {
+	onCallbackQuery(
+		callback:
+			| HandlerCallback<"callbackQuery">
+			| Middleware<"callbackQuery">,
+	) {
 		this.on("callbackQuery", (update: TgAirBot.Update<"callbackQuery">) =>
 			this._wrap("callbackQuery", update, callback),
 		);
 	}
 
-	onMyChatMember(callback: HandlerCallback<"myChatMember">) {
+	onMyChatMember(
+		callback: HandlerCallback<"myChatMember"> | Middleware<"myChatMember">,
+	) {
 		this.on("myChatMember", (update: TgAirBot.Update<"myChatMember">) =>
 			this._wrap("myChatMember", update, callback),
 		);
 	}
 
-	onChatMember(callback: HandlerCallback<"chatMember">) {
+	onChatMember(
+		callback: HandlerCallback<"chatMember"> | Middleware<"chatMember">,
+	) {
 		this.on("chatMember", (update: TgAirBot.Update<"chatMember">) =>
 			this._wrap("chatMember", update, callback),
 		);
 	}
 
-	onChatJoinRequest(callback: HandlerCallback<"chatJoinRequest">) {
+	onChatJoinRequest(
+		callback:
+			| HandlerCallback<"chatJoinRequest">
+			| Middleware<"chatJoinRequest">,
+	) {
 		this.on(
 			"chatJoinRequest",
 			(update: TgAirBot.Update<"chatJoinRequest">) =>
@@ -107,13 +140,19 @@ export class Handler extends EventEmitter {
 		);
 	}
 
-	onInlineQuery(callback: HandlerCallback<"inlineQuery">) {
+	onInlineQuery(
+		callback: HandlerCallback<"inlineQuery"> | Middleware<"inlineQuery">,
+	) {
 		this.on("inlineQuery", (update: TgAirBot.Update<"inlineQuery">) =>
 			this._wrap("inlineQuery", update, callback),
 		);
 	}
 
-	onChosenInlineResult(callback: HandlerCallback<"chosenInlineResult">) {
+	onChosenInlineResult(
+		callback:
+			| HandlerCallback<"chosenInlineResult">
+			| Middleware<"chosenInlineResult">,
+	) {
 		this.on(
 			"chosenInlineResult",
 			(update: TgAirBot.Update<"chosenInlineResult">) =>
@@ -131,7 +170,11 @@ export class Handler extends EventEmitter {
 		if (callback instanceof Middleware) {
 			callback.run(wrapper);
 		} else {
-			callback({ wrapper, params: wrapper.data });
+			callback({
+				wrapper,
+				params: wrapper.data,
+				state: GlobalFSM.getState(wrapper.identId),
+			});
 		}
 	}
 }

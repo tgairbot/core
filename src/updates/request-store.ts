@@ -11,7 +11,7 @@ export class RequestStore {
 	}
 
 	apply(wrapper: Wrapper<any>) {
-		this._requests.set(wrapper.id, wrapper);
+		// this._requests.set(wrapper.id, wrapper);
 	}
 
 	delete(id: number) {
