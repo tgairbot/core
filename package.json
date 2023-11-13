@@ -1,6 +1,6 @@
 {
   "name": "@tgairbot/core",
-  "version": "0.2.0-alpha",
+  "version": "0.3.0-alpha",
   "description": "",
   "keywords": [
     "tgairbot",
@@ -54,6 +54,7 @@
     "eslint-plugin-prettier": "^5.0.0",
     "husky": "^8.0.3",
     "lint-staged": "^14.0.1",
-    "prettier": "^3.0.3"
+    "prettier": "^3.0.3",
+    "typescript": "^5.2.2"
   }
 }

@@ -18,7 +18,11 @@ type CallbackArgs<
 	? CallbackFn<ReturnType<AsyncConditionFn>>
 	: unknown;
 
-export const filter = <C extends ConditionType, T = any, M = TgAirBot.Message>(
+export const useFilter = <
+	C extends ConditionType,
+	T = any,
+	M = TgAirBot.Message,
+>(
 	condition: C,
 	message: M,
 	callback?: CallbackArgs<C>,
@@ -55,7 +59,7 @@ export const filter = <C extends ConditionType, T = any, M = TgAirBot.Message>(
 		);
 	}
 
-	throw new Error("Unknown filter");
+	throw new Error("Unknown useFilter");
 };
 
 const filterString = <M extends TgAirBot.Message>(

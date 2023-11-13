@@ -2,7 +2,7 @@ import * as TgAirBot from "../types/tgairbot";
 import { HandlerCallback } from "../types/handler-callback";
 import { MiddlewareCallback } from "../types/middleware-callback";
 import { Wrapper } from "./wrapper";
-import { GlobalFSM } from "../fsm/fsm";
+import { WrapperStore } from "./wrappers-store";
 
 export class Middleware<T extends keyof TgAirBot.UpdatedTypes> {
 	constructor(
@@ -10,27 +10,39 @@ export class Middleware<T extends keyof TgAirBot.UpdatedTypes> {
 		private _callback: HandlerCallback<T> | Middleware<T>,
 	) {}
 
-	run(wrapper: Wrapper<T>): any {
-		const state = GlobalFSM.getState(wrapper.identId);
-
+	run(wrapper: Wrapper<T>, index: number = 0) {
 		if (this._callback instanceof Middleware) {
-			return this._middleware(wrapper, state, () => {
-				const handler = this._callback as Middleware<T>;
-
-				return handler.run(wrapper);
-			});
+			return this._runMiddleware(wrapper, index);
 		} else {
-			const next = <R>(): R => {
-				const handler = this._callback as HandlerCallback<T>;
-
-				return handler({
-					wrapper,
-					params: wrapper.data,
-					state: GlobalFSM.getState(wrapper.identId),
-				}) as R;
-			};
-
-			return this._middleware(wrapper, state, next);
+			return this._runHandler(wrapper, index);
 		}
+	}
+
+	private async _runMiddleware(wrapper: Wrapper<T>, index: number) {
+		const next = () => {
+			const handler = this._callback as Middleware<T>;
+
+			return handler.run(wrapper, index + 1);
+		};
+
+		const res = await this._middleware(wrapper, next as any);
+
+		if (!index) WrapperStore.deleteWrapper(wrapper.identId);
+
+		return res;
+	}
+
+	private async _runHandler(wrapper: Wrapper<T>, index: number) {
+		const next = () => {
+			const handler = this._callback as HandlerCallback<T>;
+
+			return handler({ wrapper, params: wrapper.data });
+		};
+
+		const res = await this._middleware(wrapper, next as any);
+
+		if (index === 0) WrapperStore.deleteWrapper(wrapper.identId);
+
+		return res;
 	}
 }

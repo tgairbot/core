@@ -88,3 +88,19 @@ export interface UpdatedTypes {
 	chatMember: ChatMemberUpdated;
 	chatJoinRequest: ChatJoinRequest;
 }
+
+export type AnyUpdateType =
+	| "message"
+	| "editedMessage"
+	| "channelPost"
+	| "editedChannelPost"
+	| "inlineQuery"
+	| "chosenInlineResult"
+	| "callbackQuery"
+	| "shippingQuery"
+	| "preCheckoutQuery"
+	| "poll"
+	| "pollAnswer"
+	| "myChatMember"
+	| "chatMember"
+	| "chatJoinRequest";

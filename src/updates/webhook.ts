@@ -2,13 +2,13 @@ import { debug } from "console";
 
 import { Client } from "../api/client";
 import { HandleFn, Server } from "../api/server";
-import { UpdateHandler } from "../handler";
 import { Response } from "../types/server";
 import { Update } from "../types/telegram";
 import { SetWebhook, WebhookOptions } from "../types/webhook";
 import { WrapRequest } from "../types/wrap-request";
+import { BaseUpdate } from "./base-update";
 
-export class Webhook {
+export class Webhook extends BaseUpdate {
 	private client: Client;
 	private server: Server;
 	private readonly params: SetWebhook;
@@ -17,6 +17,8 @@ export class Webhook {
 		private readonly token: string,
 		private options: WebhookOptions,
 	) {
+		super();
+
 		this.client = new Client("setWebhook", this.token);
 		this.params = this._parseOptions();
 		this.server = new Server("localhost", this.options.port || 443);
@@ -40,10 +42,15 @@ export class Webhook {
 	}
 
 	private async _handleResponse({ body }: Response<Update>): Promise<void> {
-		if (this.options.log)
-			debug("Handle update: ", JSON.stringify(body, null, 2));
+		const mapUpdatesGenerator = this.mapGenerator([body]);
 
-		UpdateHandler.emit("update", body);
+		for (const update of mapUpdatesGenerator) {
+			if (this.options.log) {
+				debug("Handle update: ", JSON.stringify(update, null, 2));
+			}
+
+			this.handleUpdate(update);
+		}
 	}
 
 	private _parseOptions() {

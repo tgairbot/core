@@ -1,12 +1,12 @@
 import { debug } from "console";
 
 import { Client } from "../api/client";
-import { UpdateHandler } from "../handler";
 import { PollingOptions } from "../types/polling";
-import { AvailableUpdates, GetUpdates, Update } from "../types/telegram";
+import * as Telegram from "../types/telegram";
 import { WrapRequest } from "../types/wrap-request";
+import { BaseUpdate } from "./base-update";
 
-export class Polling {
+export class Polling extends BaseUpdate {
 	private client: Client;
 	private lastUpdateId?: number;
 	private first = true;
@@ -17,6 +17,8 @@ export class Polling {
 			interval: 300,
 		},
 	) {
+		super();
+
 		this._filterOptions();
 		this.client = new Client("getUpdates", this.token);
 	}
@@ -29,7 +31,7 @@ export class Polling {
 			this.first = false;
 		}
 
-		const options: GetUpdates = this.lastUpdateId
+		const options: Telegram.GetUpdates = this.lastUpdateId
 			? { offset: this.lastUpdateId + 1 }
 			: {};
 
@@ -41,29 +43,34 @@ export class Polling {
 		});
 		if (this.options.log) debug("Get Updates: ", updates.length);
 
-		updates.forEach(update => this._handleUpdate(update));
+		const mapUpdatesGenerator = this.mapGenerator(updates);
+
+		for (const update of mapUpdatesGenerator) {
+			if (this.options.log) {
+				debug(JSON.stringify(update, null, 2));
+			}
+
+			const { updateId } = this.handleUpdate(update);
+
+			this.lastUpdateId = updateId;
+		}
 
 		setTimeout(() => this.start(), this.options.interval);
 
 		return this;
 	}
 
-	private async _getUpdates(params?: GetUpdates): Promise<Update[]> {
-		const { body } = await this.client.send<WrapRequest<Update[]>>(params);
+	private async _getUpdates(
+		params?: Telegram.GetUpdates,
+	): Promise<Telegram.Update[]> {
+		const { body } =
+			await this.client.send<WrapRequest<Telegram.Update[]>>(params);
 
 		if (body.ok && body.result) {
 			return body.result;
 		} else {
 			return [];
 		}
-	}
-
-	private _handleUpdate(update: Update) {
-		this.lastUpdateId = update.update_id;
-		if (this.options.log)
-			debug("Handle update: ", JSON.stringify(update, null, 2));
-
-		UpdateHandler.emit("update", update);
 	}
 
 	private _filterOptions() {
@@ -99,7 +106,7 @@ export class Polling {
 			Array.isArray(this.options.allowedUpdates)
 		) {
 			this.options.allowedUpdates = this.options.allowedUpdates.filter(
-				updateType => AvailableUpdates.includes(updateType),
+				updateType => Telegram.AvailableUpdates.includes(updateType),
 			);
 		}
 	}

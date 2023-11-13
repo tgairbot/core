@@ -1,39 +1,40 @@
 import EventEmitter from "events";
-import { UpdateMapper } from "./mappers/update";
-import * as Telegram from "./types/telegram";
 import * as TgAirBot from "./types/tgairbot";
 import { HandlerCallback } from "./types/handler-callback";
 import { Wrapper } from "./wrappers/wrapper";
 import { Middleware } from "./wrappers/middleware";
-import { GlobalFSM } from "./fsm/fsm";
+import { AnyUpdateType } from "./types/tgairbot";
+import { BaseStorage } from "./fsm/storage/base";
+import { MemoryStorage } from "./fsm/storage/memory";
+import { StorageContext } from "./fsm/context";
+import { WrapperStore } from "./wrappers/wrappers-store";
 
 export class Handler extends EventEmitter {
-	constructor() {
+	constructor(private _storage: BaseStorage = new MemoryStorage()) {
 		super();
-
-		this.onUpdates(() => {});
 	}
 
-	onUpdates<T extends keyof TgAirBot.UpdatedTypes>(
+	useStorage(storage: BaseStorage) {
+		this._storage = storage;
+
+		return this;
+	}
+
+	onUpdates<T extends keyof TgAirBot.UpdatedTypes = AnyUpdateType>(
 		callback: HandlerCallback<T> | Middleware<T>,
 	) {
-		this.on("update", (update: Telegram.Update) => {
-			const { updateId, ...updates } = UpdateMapper.toTAB(update);
-
-			Object.keys(updates).forEach(key => {
-				const updateType = key as keyof TgAirBot.UpdatedTypes;
-
-				this.emit(updateType, { updateId, ...updates });
-
-				this._wrap(updateType, { updateId, ...updates }, callback);
-			});
-		});
+		this.on(
+			"update",
+			(type: AnyUpdateType, update: TgAirBot.Update<any>) => {
+				return this._wrap(type, update, callback);
+			},
+		);
 	}
 
 	onMessage(callback: HandlerCallback<"message"> | Middleware<"message">) {
-		this.on("message", (update: TgAirBot.Update<"message">) =>
-			this._wrap("message", update, callback),
-		);
+		this.on("message", (update: TgAirBot.Update<"message">) => {
+			return this._wrap("message", update, callback);
+		});
 	}
 
 	onEditedMessage(
@@ -54,7 +55,7 @@ export class Handler extends EventEmitter {
 		);
 	}
 
-	editedChannelPost(
+	onEditedChannelPost(
 		callback:
 			| HandlerCallback<"editedChannelPost">
 			| Middleware<"editedChannelPost">,
@@ -160,21 +161,28 @@ export class Handler extends EventEmitter {
 		);
 	}
 
-	private _wrap<T extends keyof TgAirBot.UpdatedTypes>(
+	private async _wrap<T extends keyof TgAirBot.UpdatedTypes>(
 		type: T,
 		update: TgAirBot.Update<T>,
 		callback: HandlerCallback<T> | Middleware<T>,
 	) {
 		const wrapper = new Wrapper<T>(type, update);
+		const state = new StorageContext(wrapper.identId, this._storage);
+
+		Object.defineProperty(wrapper, "state", {
+			value: state,
+			enumerable: false,
+			writable: true,
+		});
+
+		WrapperStore.applyWrapper(wrapper.identId, wrapper);
 
 		if (callback instanceof Middleware) {
-			callback.run(wrapper);
+			await callback.run(wrapper);
 		} else {
-			callback({
-				wrapper,
-				params: wrapper.data,
-				state: GlobalFSM.getState(wrapper.identId),
-			});
+			await callback({ wrapper, params: wrapper.data });
+
+			WrapperStore.deleteWrapper(wrapper.identId);
 		}
 	}
 }

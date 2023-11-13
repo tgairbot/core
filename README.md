@@ -13,7 +13,7 @@ npm install @tgairbot/core
 
 Простой пример использования библиотеки:
 ```typescript
-import { filter, Polling, Methods, UpdateHandler } from "@tgairbot/core";
+import { useFilter, Polling, Methods, UpdateHandler } from "@tgairbot/core";
 
 const TOKEN = "YOUR_TOKEN";
 
@@ -23,7 +23,7 @@ const methods = new Methods(TOKEN);
 polling.start().then();
 
 const onMessageCallback: HandlerCallback<"message"> = async ({ params, wrapper }) => {
-    filter(
+    useFilter(
         async () => params.text === "/start",
         params,
         async (res) => {

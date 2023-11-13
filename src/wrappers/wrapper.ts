@@ -1,10 +1,10 @@
 import * as TgAirBot from "../types/tgairbot";
 import { ConditionData } from "../types/tgairbot";
-import { MakeId } from "../utils/make-id";
-import { GlobalFSM } from "../fsm/fsm";
+
+export type WrapperId = string | number | "DEFAULT_WRAPPER_ID";
 
 export class Wrapper<T extends keyof TgAirBot.UpdatedTypes> {
-	private readonly _identId: number | string;
+	private readonly _identId: WrapperId;
 
 	constructor(
 		private _type: keyof TgAirBot.UpdatedTypes,
@@ -12,10 +12,11 @@ export class Wrapper<T extends keyof TgAirBot.UpdatedTypes> {
 	) {
 		const data = this.data as TgAirBot.Message;
 
-		this._identId = data?.from?.id || data?.chat?.id || MakeId(24);
+		this._identId =
+			data?.from?.id || data?.chat?.id || "DEFAULT_WRAPPER_ID";
 	}
 
-	get identId(): string | number {
+	get identId(): WrapperId {
 		return this._identId;
 	}
 
