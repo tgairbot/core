@@ -1,19 +1,16 @@
 # TgAirBot
+TgAirBot is a lightweight library for easy interaction with the [Telegram Bot API](https://core.telegram.org/bots/api).
 
-TgAirBot - это легковесная библиотека для простого взаимодействия с [Telegram Bot API](https://core.telegram.org/bots/api).
-
-## Установка
-
-Вы можете установить TgAirBot с помощью npm:
-
+## Installation
+You can install TgAirBot using npm:
 ```bash
 npm install @tgairbot/core
 ```
-## Использование
+## Usage
 
-Простой пример использования библиотеки:
+A simple example of using the library:
 ```typescript
-import { useFilter, Polling, Methods, UpdateHandler } from "@tgairbot/core";
+import { useFilter, Polling, Methods, UpdateHandler, HandlerCallback } from "@tgairbot/core";
 
 const TOKEN = "YOUR_TOKEN";
 
@@ -39,9 +36,12 @@ const onMessageCallback: HandlerCallback<"message"> = async ({ params, wrapper }
 UpdateHandler.onMessage(onMessageCallback);
 ```
 
-## Документация
-Подробная документация доступна в [нашей вики](https://github.com/tgairbot/core/wiki).
+## Documentation
+Detailed documentation is available in [our wiki](https://github.com/tgairbot/core/wiki).
 
-## Лицензия
-Эта библиотека лицензирована под MIT License - подробности см. в файле [LICENSE](https://github.com/tgairbot/core/blob/main/LICENSE).
+## Chat Telegram
+[Link to chat](https://t.me/tgairbot)
+
+## License
+This library is licensed under the MIT License - see the [LICENSE](https://github.com/tgairbot/core/blob/main/LICENSE) file for details.
 
