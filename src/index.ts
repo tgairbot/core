@@ -15,8 +15,8 @@ export * from "./api/methods";
 export * from "./bot";
 export { UpdateHandler } from "./handler";
 
-export { useMiddleware } from "./hooks/use-middleware";
-export { useStorage } from "./hooks/use-storage";
+export { useMiddleware } from "./middlewares/use-middleware";
+export { useStorage } from "./fsm/use-storage";
 export { useFilter } from "./hooks/use-filter";
 
 export * from "./fsm/storage/base";
@@ -24,4 +24,8 @@ export * from "./fsm/storage/memory";
 export * from "./fsm/context";
 
 export { WrapperId, Wrapper } from "./wrappers/wrapper";
-export { Middleware } from "./wrappers/middleware";
+export { Middleware } from "./middlewares/middleware";
+
+export { Layout } from "./layouts/layout";
+export { createLayout } from "./layouts/create-layout";
+export { useLayout } from "./layouts/use-layout";

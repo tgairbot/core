@@ -1,5 +1,5 @@
 import { WrapperId } from "../wrappers/wrapper";
-import { StorageContext } from "../fsm/context";
+import { StorageContext } from "./context";
 import { WrapperStore } from "../wrappers/wrappers-store";
 
 export const useStorage = <S = any>(

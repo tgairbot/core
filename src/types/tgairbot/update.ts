@@ -1,92 +1,88 @@
-import { CallbackQuery } from "./callback-query";
-import { ChatJoinRequest, ChatMemberUpdated } from "./chat";
-import { ChosenInlineResult } from "./inline-query/chosen-inline-result";
-import { InlineQuery } from "./inline-query/inline-query";
-import { Message } from "./message";
-import { PreCheckoutQuery } from "./payments/pre-checkout-query";
-import { ShippingQuery } from "./payments/shipping-query";
-import { Poll, PollAnswer } from "./poll";
+import * as TgAirBot from "../tgairbot";
 
-export type ConditionKey<T extends keyof UpdatedTypes> = T extends "message"
-	? { message: Message }
-	: T extends "editedMessage"
-	? { editedMessage: Message }
-	: T extends "channelPost"
-	? { channelPost: Message }
-	: T extends "editedChannelPost"
-	? { editedChannelPost: Message }
-	: T extends "inlineQuery"
-	? { inlineQuery: InlineQuery }
-	: T extends "chosenInlineResult"
-	? { chosenInlineResult: ChosenInlineResult }
-	: T extends "callbackQuery"
-	? { callbackQuery: CallbackQuery }
-	: T extends "shippingQuery"
-	? { shippingQuery: ShippingQuery }
-	: T extends "preCheckoutQuery"
-	? { preCheckoutQuery: PreCheckoutQuery }
-	: T extends "poll"
-	? { poll: Poll }
-	: T extends "pollAnswer"
-	? { pollAnswer: PollAnswer }
-	: T extends "myChatMember"
-	? { myChatMember: ChatMemberUpdated }
-	: T extends "chatMember"
-	? { chatMember: ChatMemberUpdated }
-	: T extends "chatJoinRequest"
-	? { chatJoinRequest: ChatJoinRequest }
-	: unknown;
+export type ConditionKey<T extends keyof TgAirBot.UpdatedTypes> =
+	T extends "message"
+		? { message: TgAirBot.Message }
+		: T extends "editedMessage"
+		? { editedMessage: TgAirBot.Message }
+		: T extends "channelPost"
+		? { channelPost: TgAirBot.Message }
+		: T extends "editedChannelPost"
+		? { editedChannelPost: TgAirBot.Message }
+		: T extends "inlineQuery"
+		? { inlineQuery: TgAirBot.InlineQuery }
+		: T extends "chosenInlineResult"
+		? { chosenInlineResult: TgAirBot.ChosenInlineResult }
+		: T extends "callbackQuery"
+		? { callbackQuery: TgAirBot.CallbackQuery }
+		: T extends "shippingQuery"
+		? { shippingQuery: TgAirBot.ShippingQuery }
+		: T extends "preCheckoutQuery"
+		? { preCheckoutQuery: TgAirBot.PreCheckoutQuery }
+		: T extends "poll"
+		? { poll: TgAirBot.Poll }
+		: T extends "pollAnswer"
+		? { pollAnswer: TgAirBot.PollAnswer }
+		: T extends "myChatMember"
+		? { myChatMember: TgAirBot.ChatMemberUpdated }
+		: T extends "chatMember"
+		? { chatMember: TgAirBot.ChatMemberUpdated }
+		: T extends "chatJoinRequest"
+		? { chatJoinRequest: TgAirBot.ChatJoinRequest }
+		: unknown;
 
-export type ConditionData<T extends keyof UpdatedTypes> = T extends "message"
-	? Message
-	: T extends "editedMessage"
-	? Message
-	: T extends "channelPost"
-	? Message
-	: T extends "editedChannelPost"
-	? Message
-	: T extends "inlineQuery"
-	? InlineQuery
-	: T extends "chosenInlineResult"
-	? ChosenInlineResult
-	: T extends "callbackQuery"
-	? CallbackQuery
-	: T extends "shippingQuery"
-	? ShippingQuery
-	: T extends "preCheckoutQuery"
-	? PreCheckoutQuery
-	: T extends "poll"
-	? Poll
-	: T extends "pollAnswer"
-	? PollAnswer
-	: T extends "myChatMember"
-	? ChatMemberUpdated
-	: T extends "chatMember"
-	? ChatMemberUpdated
-	: T extends "chatJoinRequest"
-	? ChatJoinRequest
-	: unknown;
+export type ConditionData<T extends keyof TgAirBot.UpdatedTypes> =
+	T extends "message"
+		? TgAirBot.Message
+		: T extends "editedMessage"
+		? TgAirBot.Message
+		: T extends "channelPost"
+		? TgAirBot.Message
+		: T extends "editedChannelPost"
+		? TgAirBot.Message
+		: T extends "inlineQuery"
+		? TgAirBot.InlineQuery
+		: T extends "chosenInlineResult"
+		? TgAirBot.ChosenInlineResult
+		: T extends "callbackQuery"
+		? TgAirBot.CallbackQuery
+		: T extends "shippingQuery"
+		? TgAirBot.ShippingQuery
+		: T extends "preCheckoutQuery"
+		? TgAirBot.PreCheckoutQuery
+		: T extends "poll"
+		? TgAirBot.Poll
+		: T extends "pollAnswer"
+		? TgAirBot.PollAnswer
+		: T extends "myChatMember"
+		? TgAirBot.ChatMemberUpdated
+		: T extends "chatMember"
+		? TgAirBot.ChatMemberUpdated
+		: T extends "chatJoinRequest"
+		? TgAirBot.ChatJoinRequest
+		: unknown;
 
-export type Update<T extends keyof UpdatedTypes> = Partial<UpdatedTypes> &
-	ConditionKey<T> & {
-		updateId: number;
-	};
+export type Update<T extends keyof TgAirBot.UpdatedTypes> =
+	Partial<TgAirBot.UpdatedTypes> &
+		ConditionKey<T> & {
+			updateId: number;
+		};
 
 export interface UpdatedTypes {
-	message: Message;
-	editedMessage: Message;
-	channelPost: Message;
-	editedChannelPost: Message;
-	inlineQuery: InlineQuery;
-	chosenInlineResult: ChosenInlineResult;
-	callbackQuery: CallbackQuery;
-	shippingQuery: ShippingQuery;
-	preCheckoutQuery: PreCheckoutQuery;
-	poll: Poll;
-	pollAnswer: PollAnswer;
-	myChatMember: ChatMemberUpdated;
-	chatMember: ChatMemberUpdated;
-	chatJoinRequest: ChatJoinRequest;
+	message: TgAirBot.Message;
+	editedMessage: TgAirBot.Message;
+	channelPost: TgAirBot.Message;
+	editedChannelPost: TgAirBot.Message;
+	inlineQuery: TgAirBot.InlineQuery;
+	chosenInlineResult: TgAirBot.ChosenInlineResult;
+	callbackQuery: TgAirBot.CallbackQuery;
+	shippingQuery: TgAirBot.ShippingQuery;
+	preCheckoutQuery: TgAirBot.PreCheckoutQuery;
+	poll: TgAirBot.Poll;
+	pollAnswer: TgAirBot.PollAnswer;
+	myChatMember: TgAirBot.ChatMemberUpdated;
+	chatMember: TgAirBot.ChatMemberUpdated;
+	chatJoinRequest: TgAirBot.ChatJoinRequest;
 }
 
 export type AnyUpdateType =
